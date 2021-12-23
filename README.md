@@ -44,5 +44,5 @@ samples, guidance on mobile development, and a full API reference.
 ````
 ### Screenshots
 
-<img src="screenshot/s1.png" height="300em" /> <img src="screenshot/s2.png" height="300em" /><img src="screenshot/s3.png" height="300em" />
-  <img src="screenshot/s4.png" height="300em" /> 
+<img src="screenshot/s1.PNG" height="300em" /> <img src="screenshot/s2.PNG" height="300em" /><img src="screenshot/s3.PNG" height="300em" />
+  <img src="screenshot/s4.PNG" height="300em" /> 
