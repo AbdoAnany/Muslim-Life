@@ -1,4 +1,3 @@
-
 import 'package:azkar/Features/bloc/chapter/cubit.dart';
 import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/pages/surah/widgets/surah_tile.dart';
@@ -31,6 +30,11 @@ class SurahIndexScreen extends StatelessWidget {
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
+              appBar: AppBar(
+                  centerTitle: true,backgroundColor: Colors.transparent,
+                  title:   const CustomTitle(
+                    title:  'سور القرآن الكريم',
+                  )),
               backgroundColor:
                   appProvider.isDark ? Colors.grey[850] : Colors.white,
               body: Stack(
@@ -51,9 +55,7 @@ class SurahIndexScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CustomTitle(
-                    title: 'سور القرآن الكريم',
-                  ),
+
                   Positioned(
                     bottom: -200,
                     left: -200,
@@ -100,24 +102,26 @@ class SurahIndexScreen extends StatelessWidget {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.06,
                     margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.17,
+                      top: MediaQuery.of(context).size.height * 0.012,
                       left: width * 0.05,
                       right: width * 0.05,
                     ),
                     child: TextFormField(
                       onChanged: (value) {
                         chapterCubit.surahSearchName();
-                      },style:   TextStyle(
-        fontSize:  MediaQuery.of(context).size.height * 0.03,
-        ),
+                      },
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
+                      ),
                       controller: chapterCubit.chaptercontroller,
                       decoration: InputDecoration(
                         hintText: 'أبحث عن السوره من هنا',
                         prefixIcon: Icon(
                           Icons.search,
-                        ),  hintStyle:  TextStyle(
-                        fontSize:  MediaQuery.of(context).size.height * 0.02,
-                      ),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.02,
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(),
                           borderRadius: BorderRadius.circular(10.0),
@@ -132,7 +136,7 @@ class SurahIndexScreen extends StatelessWidget {
                   if (chapterCubit.chapters.isNotEmpty)
                     Container(
                         margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.22,
+                          top: MediaQuery.of(context).size.height * 0.08,
                         ),
                         child: ListView.separated(
                           separatorBuilder: (context, index) =>
@@ -148,57 +152,6 @@ class SurahIndexScreen extends StatelessWidget {
                             );
                           },
                         )),
-                  Positioned(   top: 20,right: 0,
-
-                      child:   IconButton(icon: Icon(Icons.arrow_back_outlined,color: kMainColor),onPressed: (){Navigator.of(context).pop();},)),
-
-                  // if (appProvider.isDark) ...[
-                  //   Flare(
-                  //     color: const Color(0xfff9e9b8),
-                  //     offset: Offset(width, -height),
-                  //     bottom: -50,
-                  //     flareDuration: const Duration(seconds: 17),
-                  //     left: 100,
-                  //     height: 60,
-                  //     width: 60,
-                  //   ),
-                  //   Flare(
-                  //     color: const Color(0xfff9e9b8),
-                  //     offset: Offset(width, -height),
-                  //     bottom: -50,
-                  //     flareDuration: const Duration(seconds: 12),
-                  //     left: 10,
-                  //     height: 25,
-                  //     width: 25,
-                  //   ),
-                  //   Flare(
-                  //     color: const Color(0xfff9e9b8),
-                  //     offset: Offset(width, -height),
-                  //     bottom: -40,
-                  //     left: -100,
-                  //     flareDuration: const Duration(seconds: 18),
-                  //     height: 50,
-                  //     width: 50,
-                  //   ),
-                  //   Flare(
-                  //     color: const Color(0xfff9e9b8),
-                  //     offset: Offset(width, -height),
-                  //     bottom: -50,
-                  //     left: -80,
-                  //     flareDuration: const Duration(seconds: 15),
-                  //     height: 50,
-                  //     width: 50,
-                  //   ),
-                  //   Flare(
-                  //     color: const Color(0xfff9e9b8),
-                  //     offset: Offset(width, -height),
-                  //     bottom: -20,
-                  //     left: -120,
-                  //     flareDuration: const Duration(seconds: 12),
-                  //     height: 40,
-                  //     width: 40,
-                  //   ),
-                  // ],
                 ],
               ),
             ),

@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -54,7 +54,7 @@ android {
         applicationId "com.anany.azkar"
         minSdkVersion 23
         multiDexEnabled true
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

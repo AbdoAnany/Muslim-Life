@@ -19,7 +19,7 @@ class DrawerUtils {
     {
       'title': 'السبحة',
       "imagePath": StaticAssets.tasbih,
-      'route': misbaha(),
+      'route': Misbaha(),
     },
     {
       'title': 'القبلة',

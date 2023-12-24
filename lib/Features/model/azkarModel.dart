@@ -32,6 +32,7 @@ class AzkarCategory {
 }
 
 class AzkarData {
+  int? id;
   String? category;
   String? count;
   String? description;
@@ -39,10 +40,11 @@ class AzkarData {
   String? zekr;
 
   AzkarData(
-      {this.category, this.count, this.description, this.reference, this.zekr});
+      {this.id,this.category, this.count, this.description, this.reference, this.zekr});
 
   AzkarData.fromJson(Map<String, dynamic> json) {
     category = json['category'];
+    id = json['id']??0;
     count = json['count'];
     description = json['description'];
     reference = json['reference'];

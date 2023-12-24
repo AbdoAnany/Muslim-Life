@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../shared/colors.dart';
+
 class CustomTitle extends StatelessWidget {
   final String? title;
 
@@ -11,14 +13,32 @@ class CustomTitle extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Positioned(
-      top: height * 0.10,
-      right: width * 0.05,
-      child: Text(
+    return
+      Text(
         title!,
-        style: TextStyle(color: Colors.grey.shade700,fontSize:  height * 0.035,),
+        style: TextStyle(color: Colors.grey.shade700,fontWeight:FontWeight.bold,fontSize:  height * 0.04,),
 
-      ),
-    );
+      )
+    //   Positioned(
+    //   top: height * 0.05,
+    //   right: width * 0.05,left: 0,
+    //   child:
+    //
+    //   Row(
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     mainAxisSize: MainAxisSize.max,
+    //     children: [
+    //       Text(
+    //         title!,
+    //         style: TextStyle(color: Colors.grey.shade700,fontSize:  height * 0.035,),
+    //
+    //       ),
+    //
+    //       IconButton(icon: Icon(Icons.arrow_forward,color: kMainColor),onPressed: (){Navigator.of(context).pop();},),
+    //
+    //     ],
+    //   ),
+    // )
+    ;
   }
 }

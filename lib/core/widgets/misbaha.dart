@@ -3,24 +3,34 @@ import 'dart:ui';
 import 'package:azkar/Features/bloc/Sibha_cubit/misbaha_cubit.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/utils/assets.dart';
+import 'package:azkar/core/widgets/title.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class misbaha extends StatelessWidget {
+class Misbaha extends StatelessWidget {
  late MisbahaCubit VM;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => MisbahaCubit(),
-      child: BlocConsumer<MisbahaCubit, MisbahaState>(
-          listener: (context, state) {},
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: BlocBuilder<MisbahaCubit, MisbahaState>(
+
           builder: (context, state) {
             VM = MisbahaCubit.get(context);
-            return Material(  color: kWhite,
-              child: Stack(
+            return Scaffold(
+
+              appBar: AppBar(
+                  centerTitle: true,backgroundColor: Colors.transparent,
+                  title:   const CustomTitle(
+                    title: 'السبحة',
+                  )),
+
+
+              backgroundColor: kWhite,
+              body: Stack(
                 children: [
                   Positioned(
                     bottom: -250,
@@ -130,9 +140,7 @@ class misbaha extends StatelessWidget {
                           ],
                         )),
                   ),
-                  Positioned(   top: 40,right: 0,
 
-                      child:   IconButton(icon: Icon(Icons.arrow_forward,color: kMainColor),onPressed: (){Navigator.of(context).pop();},)),
                 ],
               ),
             );

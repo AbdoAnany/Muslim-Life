@@ -1,6 +1,8 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
 
 part 'misbaha_state.dart';
@@ -16,13 +18,17 @@ class MisbahaCubit extends Cubit<MisbahaState> {
   int GroubCounter = 33;
   int Counter = 0;
   int Groub = 0;
-  AudioPlayer? player;
+
+ // AudioPlayer? player;
   void Clicked() {
     try {
-      player = AudioPlayer();
-      player!.setAsset('assets/music/click.wav');
 
-      player!.play();
+      // player = AudioPlayer();
+      // player!.setAsset('assets/music/click.wav');
+   //   late AssetsAudioPlayer player = AssetsAudioPlayer();
+
+     AzkarCubit.player.play();
+
       ButtonCounter++;
       Groub = ButtonCounter ~/ GroubCounter;
       Counter++;

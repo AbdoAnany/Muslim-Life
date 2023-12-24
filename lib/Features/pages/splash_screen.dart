@@ -1,5 +1,6 @@
 
 
+import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/bookmarks/cubit.dart';
 import 'package:azkar/Features/bloc/bookmarks/state.dart';
 import 'package:azkar/Features/bloc/chapter/cubit.dart';
@@ -7,6 +8,7 @@ import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
 import 'package:azkar/Features/pages/home_screen/widgets/home_screen.dart';
+import 'package:azkar/Features/scd.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/utils/assets.dart';
@@ -26,12 +28,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void _next() async {
-    final appProvider = Provider.of<AppProvider>(context, listen: false);
-    bool isNew = appProvider.init();
+    // bool isNew = appProvider.init();
     final bookmarkCubit = BookmarkCubit.get(context);
     final chapterCubit = ChapterCubit.get(context);
-    final pray = MainBloc.get(context);
-    await pray. getPrayTime();
+    final azkarCubit = AzkarCubit.get(context);
+    // final pray = MainBloc.get(context);
+    azkarCubit.getAzkarModel();
+  // await pray. getPrayTime();
     await chapterCubit.fetch();
     await bookmarkCubit.fetch();
 
@@ -46,10 +49,20 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+
   @override
   void initState() {
     _next();
     super.initState();
+    initStateNFT();
+
+  }
+
+
+  @override
+  void dispose() {
+    disposeNTF();
+    super.dispose();
   }
 
   @override
