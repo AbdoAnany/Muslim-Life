@@ -1,9 +1,10 @@
 import 'package:azkar/Features/bloc/Qibla_cubit/qibla_cubit.dart';
+import 'package:azkar/core/widgets/qibla.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:azkar/core/widgets/qibla.dart';
+
 import 'loading_indicator.dart';
 import 'location_error_widget.dart';
 

@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart' as intl;
 import 'package:intl/intl.dart';
 
 class SalatModel {

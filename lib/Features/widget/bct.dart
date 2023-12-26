@@ -1,12 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
-import 'package:azkar/Features/model/azkarModel.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'dart:math' as math;
 
-import 'model/Azkar/azkar.dart';
+import '../model/Azkar/azkar.dart';
 
 class BeautifulStepProgressIndicator extends StatefulWidget {
   final int totalCount;

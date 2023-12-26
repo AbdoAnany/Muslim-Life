@@ -1,5 +1,4 @@
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';

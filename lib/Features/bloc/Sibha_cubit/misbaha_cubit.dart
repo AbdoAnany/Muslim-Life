@@ -1,7 +1,4 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 

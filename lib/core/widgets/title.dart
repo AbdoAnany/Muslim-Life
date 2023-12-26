@@ -1,7 +1,6 @@
 
+import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
-
-import '../shared/colors.dart';
 
 class CustomTitle extends StatelessWidget {
   final String? title;
@@ -10,35 +9,17 @@ class CustomTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+
 
     return
-      Text(
-        title!,
-        style: TextStyle(color: Colors.grey.shade700,fontWeight:FontWeight.bold,fontSize:  height * 0.04,),
+      Padding(
+        padding:  EdgeInsets.only(top:  SizeConfig.screenHeight*.01),
+        child: Text(
+          title!,
+          style: TextStyle(color: Colors.grey.shade700,fontWeight:FontWeight.bold,fontSize:  SizeConfig.screenWidth * 0.09,),
 
+        ),
       )
-    //   Positioned(
-    //   top: height * 0.05,
-    //   right: width * 0.05,left: 0,
-    //   child:
-    //
-    //   Row(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     mainAxisSize: MainAxisSize.max,
-    //     children: [
-    //       Text(
-    //         title!,
-    //         style: TextStyle(color: Colors.grey.shade700,fontSize:  height * 0.035,),
-    //
-    //       ),
-    //
-    //       IconButton(icon: Icon(Icons.arrow_forward,color: kMainColor),onPressed: (){Navigator.of(context).pop();},),
-    //
-    //     ],
-    //   ),
-    // )
     ;
   }
 }

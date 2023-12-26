@@ -1,15 +1,11 @@
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
 import 'package:azkar/Features/model/prayer_times_model.dart';
 import 'package:azkar/StorePray.dart';
-import 'package:azkar/main.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-
-import '../../scd.dart';
 
 class MainBloc extends Cubit<MainState> {
   MainBloc() : super(MainInitState());
@@ -114,7 +110,6 @@ class MainBloc extends Cubit<MainState> {
 
   Future<void> getPrayTime() async {
     updateTextState();
-    ConnectivityResult result = await (Connectivity().checkConnectivity());
     DateTime date = DateTime.now();
     PrayerTimesModel? pray = await PrayerTimesStorage.getPrayerTimes();
     LocationPermission permission = await Geolocator.checkPermission();
@@ -138,7 +133,7 @@ class MainBloc extends Cubit<MainState> {
 
       print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
     }
-   // PrayerTimesStorage.savePrayerTimes(pray) ;
+  PrayerTimesStorage.savePrayerTimes(pray) ;
 
     updateTextState(message: "تحميل بيانات الصلاة لليوم");
     prayList = pray.data!;

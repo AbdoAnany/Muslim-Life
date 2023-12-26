@@ -7,7 +7,6 @@ import 'package:azkar/Features/bloc/chapter/cubit.dart';
 import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
-import 'package:azkar/Features/pages/home_screen/widgets/home_screen.dart';
 import 'package:azkar/Features/scd.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/providers/app_provider.dart';
@@ -16,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+
+import 'home_screen/main_screen.dart';
 
 
 
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context)=>const HomeScreen()),
+          MaterialPageRoute(builder: (context)=>const MainScreen()),
         );
       }
     });

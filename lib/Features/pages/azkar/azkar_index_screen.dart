@@ -1,16 +1,10 @@
-import 'dart:ui';
-
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_state.dart';
-import 'package:azkar/core/providers/app_provider.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/Features/widget/title_appbar.dart';
 import 'package:azkar/core/utils/assets.dart';
 import 'package:azkar/core/utils/size_config.dart';
-
-import 'package:azkar/core/widgets/title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import 'azkar_widget/azkar_item.dart';
 
@@ -19,10 +13,6 @@ class AzkarIndexScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //App.init(context);
-    final appProvider = Provider.of<AppProvider>(context);
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
 
     return BlocConsumer<AzkarCubit, AzkarState>(
       listener: (context, state) {},
@@ -34,15 +24,9 @@ class AzkarIndexScreen extends StatelessWidget {
           child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Scaffold(
-                appBar: AppBar(
-                    centerTitle: true,backgroundColor: Colors.transparent,
-                    title:   const CustomTitle(
-                  title: 'أذكار حصن المسلم',
-                )),
+                appBar: TitleAppBar(title: 'أذكار حصن المسلم'),
 
-
-                backgroundColor:
-                    appProvider.isDark ? Colors.grey[850] : Colors.white,
+                backgroundColor:  Colors.white,
                 body: Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.topCenter,
@@ -74,13 +58,19 @@ class AzkarIndexScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.012,
-                        left: width * 0.05,
-                        right: width * 0.05,
+                        left:SizeConfig.screenWidth  * 0.05,
+                        right: SizeConfig.screenWidth  * 0.05,
                       ),
                       child: TextFormField(
                         controller: azkarCubit.azkarController,
                         onChanged: (value) {
                           azkarCubit.searchState();
+                        },
+                        onSaved: (e){
+                          FocusScope.of(context).unfocus();
+                        },
+                        onFieldSubmitted: (e){
+                          FocusScope.of(context).unfocus();
                         },
                         style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.03,),
                         decoration: InputDecoration(
@@ -102,16 +92,8 @@ class AzkarIndexScreen extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => AzkarItemNew(
-                                item:
-                                // azkarCubit.azkarController.text.isEmpty
-                                //     ? azkarCubit.azkarNewList![index]
-                                //     :
-                                azkarCubit.filteredNewList![index]),
-                            itemCount:
-                            // azkarCubit.azkarController.text.isEmpty
-                            //     ? azkarCubit.azkarNewList!.length
-                            //     :
-                            azkarCubit.filteredNewList!.length,
+                                item: azkarCubit.filteredNewList![index]),
+                            itemCount: azkarCubit.filteredNewList!.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 3),
                           )),
                   ],

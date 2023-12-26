@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:azkar/Features/model/chapter.dart';
 import 'package:azkar/Features/pages/surah/widgets/surah_information.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/utils/assets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'page_screen.dart';

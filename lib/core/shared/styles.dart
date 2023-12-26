@@ -1,9 +1,5 @@
-import 'dart:ui';
-
-import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'colors.dart';
 
 
 TextStyle Headerstyle() => TextStyle(

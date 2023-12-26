@@ -6,11 +6,9 @@ import 'package:azkar/Features/model/chapter.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/widgets/groupList.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+
 //import 'package:google_fonts/google_fonts.dart';
 
 import 'surah_app_bar.dart';

@@ -14,40 +14,38 @@ class TimeView extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    return   Expanded(flex:1,
-      child: Column(
-        children: [
-          // Text(
-          //   "الان".toString()??'' ,
-          //   textAlign: TextAlign.center,
-          //   style: TextStyle(
-          //       color: kWhite,fontWeight: FontWeight.bold,letterSpacing: 2,
-          //
-          //       fontSize: SizeConfig.screenWidth * .04),
-          // ),
-          Text(
-            pray.arabicName
-                .toString()??'' ,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: kWhite,fontWeight: FontWeight.bold,letterSpacing: 2,
+    return   Column(
+      children: [
+        // Text(
+        //   "الان".toString()??'' ,
+        //   textAlign: TextAlign.center,
+        //   style: TextStyle(
+        //       color: kWhite,fontWeight: FontWeight.bold,letterSpacing: 2,
+        //
+        //       fontSize: SizeConfig.screenWidth * .04),
+        // ),
+        Text(
+          pray.arabicName
+              .toString()??'' ,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: kWhite,fontWeight: FontWeight.bold,letterSpacing: 2,overflow: TextOverflow.ellipsis,
 
-                fontSize: SizeConfig.screenWidth * .04),
-          ),
-          SizedBox(height: 8,),
+              fontSize: SizeConfig.screenWidth * .035),
+        ),
+        SizedBox(height:  SizeConfig.screenHeight * .008,),
 
-          Text(
-            "${MainBloc.convertTo12HourFormat(pray.time!, false)}",textDirection: TextDirection.ltr,
-            textAlign: TextAlign.center,
+        Text(
+          "${MainBloc.convertTo12HourFormat(pray.time!, false)}",textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
 
-            style: TextStyle(
-                color: kWhite,fontWeight: FontWeight.bold,letterSpacing:1.2,
-                fontSize:
-                SizeConfig.screenWidth * .05),
-          ),
+          style: TextStyle(
+              color: kWhite,fontWeight: FontWeight.bold,letterSpacing:1.2,
+              fontSize:
+              SizeConfig.screenWidth * .05),
+        ),
 
-        ],
-      ),
+      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SizeConfig {
   static late MediaQueryData? _mediaQueryData;
@@ -9,8 +10,8 @@ class SizeConfig {
 
     void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData!.size.width;
-    screenHeight = _mediaQueryData!.size.height;
+    screenWidth = (_mediaQueryData!.size.width).w;
+    screenHeight = (_mediaQueryData!.size.height).h;
     orientation = _mediaQueryData!.orientation;
     defaultSize = orientation == Orientation.landscape
         ? screenHeight * .024

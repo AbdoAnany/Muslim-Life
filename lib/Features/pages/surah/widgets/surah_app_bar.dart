@@ -1,6 +1,5 @@
 import 'package:azkar/Features/model/chapter.dart';
 import 'package:azkar/core/providers/app_provider.dart';
-import 'package:azkar/core/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class SurahAppBar extends StatelessWidget {

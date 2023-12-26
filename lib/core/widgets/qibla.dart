@@ -1,11 +1,11 @@
 import 'dart:math' show pi;
-import 'dart:ui';
+
+import 'package:azkar/Features/widget/title_appbar.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/utils/assets.dart';
-import 'package:azkar/core/widgets/title.dart';
+import 'package:azkar/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
-import 'package:azkar/core/widgets/loading_indicator.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -45,12 +45,8 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            title: const CustomTitle(
-              title: 'أتجاه القبلة',
-            )),
+        appBar:               TitleAppBar(title: 'أتجاه القبلة',),
+
         backgroundColor: kWhite,
         body: !status.isGranted
             ? Center(

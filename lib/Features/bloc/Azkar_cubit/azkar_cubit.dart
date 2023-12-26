@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/Features/model/azkarModel.dart';
-import 'package:bloc/bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'azkar_state.dart';
 
 
@@ -33,7 +34,7 @@ class AzkarCubit extends Cubit<AzkarState> {
   late String textState;
   static  final AssetsAudioPlayer player = AssetsAudioPlayer();
 
-  int currentIndex = 1, currentPage = 0;
+  int currentIndex = 0, currentPage = 0;
   var currentPosition;
   final CarouselController carouselController = CarouselController();
 
@@ -51,7 +52,7 @@ class AzkarCubit extends Cubit<AzkarState> {
   // }
 
   clearAzkarTappedNew(){
-    currentIndex=1;
+    currentIndex=0;
     azkarCategoryNew=null;
     azkarDataNewList=[];
   }
@@ -65,7 +66,7 @@ class AzkarCubit extends Cubit<AzkarState> {
        print(  "Category.toJson()");
        print(  Category.toJson());
       int index=   BookMarkAppCubit.getAzkarCurrentIndex(Category.category!);
-      currentIndex=index+1;
+      currentIndex=index;
       print('BookMarkAppCubit index  ${index}');
       await onScrollNew(index);
       carouselController.jumpToPage(index);
@@ -77,10 +78,9 @@ class AzkarCubit extends Cubit<AzkarState> {
 
 
   Future<void> onScrollNew(index) async {
-    currentIndex=index+1;
+    currentIndex=index;
 
-    emit(ScrollAzkar());
-    BookMarkAppCubit.setAzkarCurrentIndex(azkarCategoryNew!.category,index);
+    BookMarkAppCubit.setAzkarCurrentIndex(azkarCategoryNew!.category,currentIndex);
     await Future.delayed(Duration(milliseconds: 600));
      azkarItemNew = azkarDataNewList[index];
 

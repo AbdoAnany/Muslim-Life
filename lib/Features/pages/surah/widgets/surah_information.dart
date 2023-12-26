@@ -1,6 +1,5 @@
 import 'package:azkar/Features/model/chapter.dart';
 import 'package:azkar/core/providers/app_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

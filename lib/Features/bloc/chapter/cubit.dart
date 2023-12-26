@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:azkar/Features/bloc/chapter/cubit.dart';
+
 import 'package:azkar/Features/bloc/chapter/repository.dart';
 import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/model/chapter.dart';

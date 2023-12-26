@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/Azkar/azkar.dart';
@@ -16,6 +15,7 @@ class BookMarkAppCubit extends Cubit<BookMarkAppStates> {
   bool IsDark = false;
   Locale _appLocale = Locale('en');
   static String today = DateFormat('M/d/y').format(DateTime.now());
+  static String dayNow = DateTime.now().day.toString();
   static String keyAzkar = 'AzkarItem';
   static String keyAzkarIndex = 'AzkarIndex';
   Locale get appLocal => _appLocale; //?? Locale("en");
@@ -23,8 +23,8 @@ class BookMarkAppCubit extends Cubit<BookMarkAppStates> {
     prefs = await SharedPreferences.getInstance();
   }
 
-  static int  getAzkarCurrentIndex(keyCategory)=>int.parse((prefs.get(keyAzkarIndex+'-'+keyCategory)??"1").toString());
-  static setAzkarCurrentIndex(keyCategory,index) async =>await prefs.setString(keyAzkarIndex+'-'+keyCategory,'${index}');
+  static int  getAzkarCurrentIndex(keyCategory)=>int.parse((prefs.get(keyAzkarIndex+"-"+dayNow+'-'+keyCategory)??"0").toString());
+  static setAzkarCurrentIndex(keyCategory,index) async =>await prefs.setString(keyAzkarIndex+"-"+dayNow+'-'+keyCategory,'${index}');
 
   //=================== AzkarItem============================
   static Future<void> clearAzkarDayCount() async {

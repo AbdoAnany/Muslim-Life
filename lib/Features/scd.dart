@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 // ignore: unnecessary_import
 import 'dart:typed_data';
+
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/main.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as image;
 import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -451,12 +449,12 @@ class NotificationPanelState extends State<NotificationPanel> {
                         await checkPendingNotificationRequests();
                       },
                     ),
-                    PaddedElevatedButton(
-                      buttonText: 'Get active notifications',
-                      onPressed: () async {
-                        await getActiveNotifications();
-                      },
-                    ),
+                    // PaddedElevatedButton(
+                    //   buttonText: 'Get active notifications',
+                    //   onPressed: () async {
+                    //     await getActiveNotifications();
+                    //   },
+                    // ),
                   ],
                   PaddedElevatedButton(
                     buttonText: 'Schedule monthly Monday 10:00:00 am notification in '
@@ -2363,95 +2361,95 @@ Future<void> deleteNotificationChannel() async {
   );
 }
 
-Future<void> getActiveNotifications() async {
-  final Widget activeNotificationsDialogContent = await getActiveNotificationsDialogContent();
-  await showDialog<void>(
-    context:  Get.context,
-    builder: (BuildContext context) => AlertDialog(
-      content: activeNotificationsDialogContent,
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('OK'),
-        ),
-      ],
-    ),
-  );
-}
-
-Future<Widget> getActiveNotificationsDialogContent() async {
-  if (Platform.isAndroid) {
-    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    if (androidInfo.version.sdkInt < 23) {
-      return const Text(
-        '"getActiveNotifications" is available only for Android 6.0 or newer',
-      );
-    }
-  } else if (Platform.isIOS) {
-    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    final List<String> fullVersion = iosInfo.systemVersion!.split('.');
-    if (fullVersion.isNotEmpty) {
-      final int? version = int.tryParse(fullVersion[0]);
-      if (version != null && version < 10) {
-        return const Text(
-          '"getActiveNotifications" is available only for iOS 10.0 or newer',
-        );
-      }
-    }
-  }
-
-  try {
-    final List<ActiveNotification>? activeNotifications =
-    await flutterLocalNotificationsPlugin.getActiveNotifications();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const Text(
-          'Active Notifications',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const Divider(color: Colors.black),
-        if (activeNotifications!.isEmpty) const Text('No active notifications'),
-        if (activeNotifications.isNotEmpty)
-          for (final ActiveNotification activeNotification in activeNotifications)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'id: ${activeNotification.id}\n'
-                      'channelId: ${activeNotification.channelId}\n'
-                      'groupKey: ${activeNotification.groupKey}\n'
-                      'tag: ${activeNotification.tag}\n'
-                      'title: ${activeNotification.title}\n'
-                      'body: ${activeNotification.body}',
-                ),
-                if (Platform.isAndroid && activeNotification.id != null)
-                  TextButton(
-                    child: const Text('Get messaging style'),
-                    onPressed: () {
-                      getActiveNotificationMessagingStyle(
-                          activeNotification.id!, activeNotification.tag);
-                    },
-                  ),
-                const Divider(color: Colors.black),
-              ],
-            ),
-      ],
-    );
-  } on PlatformException catch (error) {
-    return Text(
-      'Error calling "getActiveNotifications"\n'
-          'code: ${error.code}\n'
-          'message: ${error.message}',
-    );
-  }
-}
+// Future<void> getActiveNotifications() async {
+//   final Widget activeNotificationsDialogContent = await getActiveNotificationsDialogContent();
+//   await showDialog<void>(
+//     context:  Get.context,
+//     builder: (BuildContext context) => AlertDialog(
+//       content: activeNotificationsDialogContent,
+//       actions: <Widget>[
+//         TextButton(
+//           onPressed: () {
+//             Navigator.of(context).pop();
+//           },
+//           child: const Text('OK'),
+//         ),
+//       ],
+//     ),
+//   );
+// }
+//
+// Future<Widget> getActiveNotificationsDialogContent() async {
+//   if (Platform.isAndroid) {
+//     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+//     final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+//     if (androidInfo.version.sdkInt < 23) {
+//       return const Text(
+//         '"getActiveNotifications" is available only for Android 6.0 or newer',
+//       );
+//     }
+//   } else if (Platform.isIOS) {
+//     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+//     final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+//     final List<String> fullVersion = iosInfo.systemVersion!.split('.');
+//     if (fullVersion.isNotEmpty) {
+//       final int? version = int.tryParse(fullVersion[0]);
+//       if (version != null && version < 10) {
+//         return const Text(
+//           '"getActiveNotifications" is available only for iOS 10.0 or newer',
+//         );
+//       }
+//     }
+//   }
+//
+//   try {
+//     final List<ActiveNotification>? activeNotifications =
+//     await flutterLocalNotificationsPlugin.getActiveNotifications();
+//
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisSize: MainAxisSize.min,
+//       children: <Widget>[
+//         const Text(
+//           'Active Notifications',
+//           style: TextStyle(fontWeight: FontWeight.bold),
+//         ),
+//         const Divider(color: Colors.black),
+//         if (activeNotifications!.isEmpty) const Text('No active notifications'),
+//         if (activeNotifications.isNotEmpty)
+//           for (final ActiveNotification activeNotification in activeNotifications)
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: <Widget>[
+//                 Text(
+//                   'id: ${activeNotification.id}\n'
+//                       'channelId: ${activeNotification.channelId}\n'
+//                       'groupKey: ${activeNotification.groupKey}\n'
+//                       'tag: ${activeNotification.tag}\n'
+//                       'title: ${activeNotification.title}\n'
+//                       'body: ${activeNotification.body}',
+//                 ),
+//                 if (Platform.isAndroid && activeNotification.id != null)
+//                   TextButton(
+//                     child: const Text('Get messaging style'),
+//                     onPressed: () {
+//                       getActiveNotificationMessagingStyle(
+//                           activeNotification.id!, activeNotification.tag);
+//                     },
+//                   ),
+//                 const Divider(color: Colors.black),
+//               ],
+//             ),
+//       ],
+//     );
+//   } on PlatformException catch (error) {
+//     return Text(
+//       'Error calling "getActiveNotifications"\n'
+//           'code: ${error.code}\n'
+//           'message: ${error.message}',
+//     );
+//   }
+// }
 
 Future<void> getActiveNotificationMessagingStyle(int id, String? tag) async {
   Widget dialogContent;

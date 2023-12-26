@@ -4,7 +4,6 @@ import 'package:azkar/Features/pages/surah/widgets/surah_tile.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/utils/assets.dart';
-import 'package:azkar/core/widgets/custom_image.dart';
 import 'package:azkar/core/widgets/title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

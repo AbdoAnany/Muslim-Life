@@ -4,10 +4,8 @@ import 'dart:math' as math;
 
 import 'package:azkar/Features/model/ayah.dart';
 import 'package:azkar/core/shared/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../animations/bottom_animation.dart';

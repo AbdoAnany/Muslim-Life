@@ -1,9 +1,5 @@
-import 'dart:convert';
 
-import 'package:json_annotation/json_annotation.dart';
-import 'package:nb_utils/nb_utils.dart';
-//flutter pub run build_runner build
-// part 'prayer_times_model.g.dart'; // <-- Add this line
+
 class PrayerTimesModel {
   int? code;
   String? status;
