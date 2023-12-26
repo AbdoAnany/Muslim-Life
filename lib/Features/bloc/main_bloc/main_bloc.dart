@@ -133,7 +133,7 @@ class MainBloc extends Cubit<MainState> {
 
       print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
     }
-  PrayerTimesStorage.savePrayerTimes(pray) ;
+  //PrayerTimesStorage.savePrayerTimes(pray) ;
 
     updateTextState(message: "تحميل بيانات الصلاة لليوم");
     prayList = pray.data!;

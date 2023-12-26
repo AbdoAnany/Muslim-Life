@@ -107,18 +107,17 @@ class AzkarCubit extends Cubit<AzkarState> {
 
  static onClick() async {
     HapticFeedback.vibrate();
-    try {
-      await player.play();
-    } catch (e) {
-      print(e);
-    }
+    await  player.open(
+      Audio('assets/music/click.wav'),
+    );
+    await player.play();
+    print('player');
+
 
   }
   Future<void> getAzkarModel() async {
   //  player.setAsset('azkar/music/click.wav');
-  await  player.open(
-      Audio('assets/music/click.wav'),
-    );
+
     try {
       textState = 'تحميل الاذكار';
       emit(AzkarLoading());
@@ -140,7 +139,7 @@ class AzkarCubit extends Cubit<AzkarState> {
 
   Future<void> onTap() async {
    // player.play();
-    onClick();
+  // await onClick();
       carouselController.nextPage();
 
     emit(AzkarSuccess());

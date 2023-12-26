@@ -32,7 +32,7 @@ class _BeautifulStepProgressIndicatorState
     super.initState();
   }
 
-  void incrementCount() {
+  Future<void> incrementCount() async {
     if (widget.controller.currentCount >= widget.controller.count!) {
       print('Complete');
       AzkarCubit.get(context).onTap();
@@ -40,12 +40,14 @@ class _BeautifulStepProgressIndicatorState
     if(widget.controller.currentCount < widget.controller.count!) {
       print('NOT  Complete');
       widget.controller.currentCount++;
+
       BookMarkAppCubit.saveAzkarItemCount(widget.controller);
     }
     if (widget.controller.currentCount == widget.controller.count!) {
       print('Complete');
       AzkarCubit.get(context).onTap();
     }
+    await    AzkarCubit.onClick();
     setState(() {
       print('  currentCount ${widget.controller.currentCount } ======  count  ${ widget.controller.count!}');
 
