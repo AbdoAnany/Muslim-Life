@@ -1,5 +1,7 @@
 
 
+import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
+
 class PrayerTimesModel {
   int? code;
   String? status;
@@ -14,6 +16,12 @@ class PrayerTimesModel {
       data = <Data>[];
       json['data'].forEach((v) {
         data!.add(new Data.fromJson(v));
+       data!.forEach((element1) {
+         List<PrayerTimeModel?> timingsElement = MainBloc.timingsListMethod(element1.timings);
+         timingsElement.forEach((element2) {
+           MainBloc.timeToDateTime(time: element2!.time,date: element1.date!.gregorian!.date);
+         });
+       });
       });
     }
   }
@@ -31,7 +39,9 @@ class PrayerTimesModel {
     data['code'] = this.code;
     data['status'] = this.status;
     if (this.data != null) {
+
       data['data'] = this.data!.map((v) => v.toJson()).toList();
+
     }
     return data;
   }
@@ -146,6 +156,49 @@ class Timings {
       'Firstthird': firstthird!.toJson(),
       'Lastthird': lastthird!.toJson(),
     };
+  }
+}
+class TimingsMap {
+  Map<String, PrayerTimeModel?> prayerTimes;
+
+  TimingsMap({required this.prayerTimes});
+
+  // Create a method to get Arabic time for a given prayer
+  factory TimingsMap.fromJson(Map<String, dynamic> json) {
+    return TimingsMap(
+      prayerTimes: Map.fromEntries(
+        json.entries.map(
+              (entry) => MapEntry(
+            entry.key,
+            PrayerTimeModel.fromString(entry.value!, entry.key),
+          ),
+        ),
+      ),
+    );
+  }
+
+  factory TimingsMap.fromLocalJson(Map<String, dynamic> json) {
+    return TimingsMap(
+      prayerTimes: Map.fromEntries(
+        json.entries.map(
+              (entry) => MapEntry(
+            entry.key,
+            PrayerTimeModel.fromLocalString(entry.value!, entry.key),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return Map.fromEntries(
+      prayerTimes.entries.map(
+            (entry) => MapEntry(
+          entry.key,
+          entry.value!.toJson(),
+        ),
+      ),
+    );
   }
 }
 

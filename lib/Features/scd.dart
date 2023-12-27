@@ -1389,12 +1389,12 @@ Future<void> showNotificationCustomVibrationIconLed() async {
 
 Future<void> zonedScheduleNotification(
     {id, title, body, DateTime? dateTime}) async {
-  print('zonedScheduleNotification ${id}  ===   ${title}');
+  // print('zonedScheduleNotification ${id}  ===   ${title}');
 
   tz.TZDateTime time = tz.TZDateTime.from(dateTime!, tz.local);
-  print(time.toIso8601String());
-  print(tz.TZDateTime.now(tz.local).toIso8601String());
-  print(tz.TZDateTime.now(tz.local).difference(time));
+  // print(time.toIso8601String());
+  // print(tz.TZDateTime.now(tz.local).toIso8601String());
+  // print(tz.TZDateTime.now(tz.local).difference(time));
 
   await flutterLocalNotificationsPlugin.zonedSchedule(
       id ?? 0,
@@ -1412,8 +1412,7 @@ Future<void> zonedScheduleNotification(
       )),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: time.toIso8601String(),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime);
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
 }
 
 Future<void> zonedScheduleAlarmClockNotification() async {
@@ -1428,8 +1427,7 @@ Future<void> zonedScheduleAlarmClockNotification() async {
                   'alarm_clock_channel', 'Alarm Clock Channel',
                   channelDescription: 'Alarm Clock Notification')),
           androidScheduleMode: AndroidScheduleMode.alarmClock,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.wallClockTime)
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime)
       .catchError(
           (e) => print('zonedScheduleAlarmClockNotification  ${e.toString()}'));
 }
@@ -1838,7 +1836,7 @@ Future<void> checkPendingNotificationRequests() async {
   pendingNotificationRequests.forEach((element) {
     print(element.id);
     print(element.title);
-    print(element.body);
+    print(element.payload);
     print('+++++++++++++++++++++++++++');
   });
   return showDialog<void>(

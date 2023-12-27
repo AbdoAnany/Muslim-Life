@@ -35,8 +35,10 @@ class MainBloc extends Cubit<MainState> {
   List<Data> prayList = [];
   Timings timings = Timings();
   List<PrayerTimeModel?> timingsList = [];
+ static PrayerTimeModel? currentPray;
+  static PrayerTimeModel? nextPray;
 
-  List<PrayerTimeModel?> timingsListMethod(timings) => [
+  static List<PrayerTimeModel?> timingsListMethod(timings) => [
         timings.fajr,
         timings.sunrise,
         timings.dhuhr,
@@ -79,12 +81,12 @@ class MainBloc extends Cubit<MainState> {
 
     emit(MainLoading());
   }
-  static Future<DateTime> timeToDateTime({String? time='',String? date}) async {
+  static DateTime timeToDateTime({String? time='',String? date})  {
     final customFormat = DateFormat("dd-MM-yyyy HH:mm");
     DateTime now=DateTime.now();
     date=date??'${now.day}-${now.month}-${now.year}';
     String originalDateString = "$date ${time}";
-    DateTime originalDate = await customFormat.parse(originalDateString);
+    DateTime originalDate =  customFormat.parse(originalDateString);
    return originalDate ;
   }
   static String? convertTo12HourFormat(String time, showPeriod) {
@@ -120,38 +122,27 @@ class MainBloc extends Cubit<MainState> {
       if (permission.name == 'denied' || permission.name == 'deniedForever') {
         print('>>>>>>>>>>>>     GET DATE FROM SERVER  WITHOUT PERMISSION');
         updateTextState(message: "لايمكن  حصول علي الموقع الجغرافي");
-        await Geolocator.checkPermission();
-        // parser1 = await Dio().get('https://api.aladhan.com/v1/calendar?latitude=30.2398005&longitude=31.4722447&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
+        await Geolocator.requestPermission();
       } else {
          log = await Geolocator.getCurrentPosition();
       }
       parser1 = await Dio().get('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
-
       pray = PrayerTimesModel.fromJson(parser1.data);
       PrayerTimesStorage.savePrayerTimes(pray);
     } else {
-
       print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
     }
-  //PrayerTimesStorage.savePrayerTimes(pray) ;
+  // PrayerTimesStorage.savePrayerTimes(pray) ;
+  //   print('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
 
     updateTextState(message: "تحميل بيانات الصلاة لليوم");
     prayList = pray.data!;
-    int x = 0;
-    timings = prayList
-        .firstWhere((element) =>
-            element.date!.gregorian!.date == DateFormat("d-M-y").format(DateTime.now()).toString())
-        .timings!;
+    timings = prayList.firstWhere((element) => element.date!.gregorian!.date == DateFormat("d-M-y").format(DateTime.now()).toString()).timings!;
     timingsList = timingsListMethod(timings);
-    String originalDateString = "23-12-2023 10:10";
 
-    // Define the custom date format
-    final customFormat = DateFormat("dd-MM-yyyy HH:mm");
 
-    // Parse the original date string
-    DateTime originalDate = customFormat.parse(originalDateString);
-
-    //  zonedScheduleNotification(id: 80,title: 'TEST 123',body: "TEFKLAVJKLJFAJJDVKVJHPVVN",dateTime: originalDate.add(Duration(seconds:52 )));
+    currentPray =timingsList.firstWhere((element)  => (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()));
+    nextPray =timingsList.firstWhere((element)  => (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()));
 
     updateTextState(message: "تم تحميل البيانات");
   }

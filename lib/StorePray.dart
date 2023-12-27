@@ -16,27 +16,30 @@ class PrayerTimesStorage {
     final prefs = await SharedPreferences.getInstance();
     int x = 0;
     prayerTimes.data!.forEach((element) {
-      List<PrayerTimeModel?> timingsElement = MainBloc.get(Get.context).timingsListMethod(element.timings);
+      List<PrayerTimeModel?> timingsElement = MainBloc.timingsListMethod(element.timings);
       String? date = element.date!.gregorian!.date;
       timingsElement.forEach((element) async {
         DateTime originalDate = await MainBloc.timeToDateTime(time: element?.time, date: date);
-        if (originalDate.isAfter(DateTime.now())&&originalDate.isBefore(DateTime.now().add(Duration(days: 2)))) {
+        if (originalDate.isAfter(DateTime.now())&&originalDate.isBefore(DateTime.now().add(Duration(days: 1)))) {
 
           await zonedScheduleNotification(
-              id: x++,
+              id:originalDate.day+originalDate.month*10+x++,
               title: '${element?.arabicName!}',
               body: element!.englishName!.length > 7
-                  ? "أقترب  ${element.arabicName!}"
-                  : "أقترب موعد أذان ${element.arabicName!}",
-              dateTime: originalDate.subtract(Duration(minutes: 5)));
-
-          await zonedScheduleNotification(
-              id: x++,
-              title: '${element.arabicName!}',
-              body: element.englishName!.length > 7
                   ? "حان الان  ${element.arabicName!}"
                   : "حان الان موعد أذان ${element.arabicName!}",
               dateTime: originalDate);
+
+
+          // await zonedScheduleNotification(
+          //     id: x++,
+          //     title: '${element?.arabicName!}',
+          //     body: element!.englishName!.length > 7
+          //         ? "أقترب  ${element.arabicName!}"
+          //         : "أقترب موعد أذان ${element.arabicName!}",
+          //     dateTime: originalDate.subtract(Duration(minutes: 5)));
+
+
         }
       });
     });
