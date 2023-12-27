@@ -6,7 +6,6 @@ import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 
 import 'package:azkar/core/providers/app_provider.dart';
 
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,13 +49,7 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp(DevicePreview(
-    enabled: false,
-    tools: [
-      ...DevicePreview.defaultTools,
-    ],
-    builder: (context) => MyApp(),
-  ));
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -69,7 +62,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => QiblaCubit()),
           BlocProvider(create: (context) => MisbahaCubit()),
           BlocProvider(create: (context) => ChapterCubit()),
-          BlocProvider(create: (context) => BookmarkCubit()),
+        BlocProvider(create: (context) => BookmarkCubit()),
           BlocProvider(create: (context) => MainBloc()..getPrayTime()),
           BlocProvider(create: (_) => AppProvider()),
         ],
