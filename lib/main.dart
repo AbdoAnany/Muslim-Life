@@ -13,12 +13,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'Features/bloc/chapter/cubit.dart';
 import 'Features/pages/splash_screen.dart';
 import 'Features/scd.dart';
 import 'core/shared/themes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
