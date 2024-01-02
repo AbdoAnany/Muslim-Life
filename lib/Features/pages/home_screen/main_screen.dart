@@ -191,7 +191,7 @@ class MainScreen extends StatelessWidget {
                                                           .07),
                                             ),
                                           ),
-                                          Row(
+                                          if(prayer.timingsList.length>5)Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               mainAxisAlignment:
