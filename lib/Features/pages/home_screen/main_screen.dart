@@ -155,6 +155,7 @@ Spacer(),
                                                 fontSize: SizeConfig.screenWidth * .07),
                                           ),
                                         ),
+                                        if(prayer.timingsList.length>5)
                                         Row(
                                             crossAxisAlignment:
                                             CrossAxisAlignment.center,
