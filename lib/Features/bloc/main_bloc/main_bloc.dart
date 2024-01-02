@@ -141,8 +141,8 @@ class MainBloc extends Cubit<MainState> {
     timingsList = timingsListMethod(timings);
 
 
-    currentPray =timingsList.firstWhere((element)  => (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()));
-    nextPray =timingsList.firstWhere((element)  => (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()));
+    currentPray =timingsList.lastWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isBefore(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
+    nextPray =timingsList.firstWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
 
     updateTextState(message: "تم تحميل البيانات");
   }

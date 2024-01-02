@@ -33,9 +33,8 @@ class MainScreen extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: Container(
               height: MediaQuery.of(context).size.height,
-            color: Colors.white,
-
-            margin: const EdgeInsets.only(top: 40),
+              color: Colors.white,
+              margin: const EdgeInsets.only(top: 40),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -43,8 +42,7 @@ class MainScreen extends StatelessWidget {
                     bottom: -200,
                     left: -200,
                     child: Opacity(
-                        opacity: .35,
-                        child: Image.asset(StaticAssets.arabic)),
+                        opacity: .35, child: Image.asset(StaticAssets.arabic)),
                   ),
                   Positioned(
                     top: -200,
@@ -59,116 +57,155 @@ class MainScreen extends StatelessWidget {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minHeight: SizeConfig.screenHeight*.20,
-                            maxHeight:SizeConfig.screenHeight*.20,
-                          ),
-                            margin:  EdgeInsets.all(SizeConfig.screenWidth * .02),
-                            padding:  EdgeInsets.all(SizeConfig.screenWidth * .01),
-                            decoration: BoxDecoration(
-                                color: kMainColor,
-                                gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Color(0xffb0c168),
-                                      Color(0xff57b78f),
-                                      kMainColor,
-                                      Colors.teal
-                                    ]),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.shade400,
-                                      blurRadius: 8,
-                                      spreadRadius: 1,
-                                      offset: Offset(0, 4)),
-                                ],
-                                borderRadius: BorderRadius.circular(12)),
-                            alignment: Alignment.topCenter,
-                            child: prayer.prayList.isEmpty
-                                ? Center(
-                                    child: Text(
-                                      prayer.textState,
-                                      style: LightText(),
-                                    ),
-                                  )
-                                : Padding(
-                                  padding:  EdgeInsets.all(SizeConfig.screenWidth * .007),
-                                  child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "${today.fullDate()}",
-                                              style: TextStyle(
-                                                  fontSize: SizeConfig.screenWidth * .055,
-                                                  fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,
-                                                  color: kWhite),
-                                            ),
-                                            Expanded(
-                                                child: Padding(
-                                                    padding:  EdgeInsets.only(left: SizeConfig.screenWidth * .007, bottom: SizeConfig.screenWidth * .007),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .end,
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .end,
-                                                      children: [
-                                                        Text(
-                                                          prayer
-                                                              .prayList
-                                                              .first
-                                                              .meta!
-                                                              .timezone!
-                                                              .split('/')[1],
-                                                          style: TextStyle(
-                                                              color: kWhite,overflow: TextOverflow.ellipsis,
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: SizeConfig.screenWidth * .050),
-                                                        ),
-                                                        Icon(
-                                                            Icons.pin_drop_outlined,
-                                                            color: kWhite,
-                                                            size: SizeConfig.screenWidth * .055),
-                                                      ],
-                                                    ))),
-                                          ],
-                                        ),
-
-Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                          child: Text(
-                                            'مواقيت الصلاة',
-                                            style: TextStyle(
-                                                color: kWhite,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: SizeConfig.screenWidth * .07),
-                                          ),
-                                        ),
-                                        Row(
+                        GestureDetector(
+                          onTap: (){
+                            int x=0;
+                            prayer.timingsList.forEach((element) {
+                              zonedScheduleNotification(
+                                id: DateTime.now().day+DateTime.now().month*10+x++,
+                                  body: element!.englishName!.length > 7
+                                      ? "حان الان  ${element.arabicName!}"
+                                      : "حان الان موعد أذان ${element.arabicName!}",
+                                dateTime: MainBloc.timeToDateTime(time: element!.time)
+                              );
+                            });
+                          },
+                          child: Container(
+                              constraints: BoxConstraints(
+                                minHeight: SizeConfig.screenHeight * .20,
+                                maxHeight: SizeConfig.screenHeight * .20,
+                              ),
+                              margin:
+                                  EdgeInsets.all(SizeConfig.screenWidth * .02),
+                              padding:
+                                  EdgeInsets.all(SizeConfig.screenWidth * .01),
+                              decoration: BoxDecoration(
+                                  color: kMainColor,
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Color(0xffb0c168),
+                                        Color(0xff57b78f),
+                                        kMainColor,
+                                        Colors.teal
+                                      ]),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.shade400,
+                                        blurRadius: 8,
+                                        spreadRadius: 1,
+                                        offset: Offset(0, 4)),
+                                  ],
+                                  borderRadius: BorderRadius.circular(12)),
+                              alignment: Alignment.topCenter,
+                              child: prayer.prayList.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        prayer.textState,
+                                        style: LightText(),
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.screenWidth * .007),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Row(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                            children: prayer.timingsList
-                                                .sublist(0, 6)
-                                                .map((timings) =>
-                                                TimeView(pray: timings!))
-                                                .toList())
-                                        // SizedBox(height: 10,)
-                                      ],
-                                    ),
-                                )),
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${today.fullDate()}",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        SizeConfig.screenWidth *
+                                                            .055,
+                                                    fontWeight: FontWeight.bold,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: kWhite),
+                                              ),
+                                              Expanded(
+                                                  child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                                  .screenWidth *
+                                                              .007,
+                                                          bottom: SizeConfig
+                                                                  .screenWidth *
+                                                              .007),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            prayer.prayList.first
+                                                                .meta!.timezone!
+                                                                .split('/')[1],
+                                                            style: TextStyle(
+                                                                color: kWhite,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: SizeConfig
+                                                                        .screenWidth *
+                                                                    .050),
+                                                          ),
+                                                          Icon(
+                                                              Icons
+                                                                  .pin_drop_outlined,
+                                                              color: kWhite,
+                                                              size: SizeConfig
+                                                                      .screenWidth *
+                                                                  .055),
+                                                        ],
+                                                      ))),
+                                            ],
+                                          ),
+
+                                          Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0),
+                                            child: Text(
+                                              'مواقيت الصلاة',
+                                              style: TextStyle(
+                                                  color: kWhite,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      SizeConfig.screenWidth *
+                                                          .07),
+                                            ),
+                                          ),
+                                          Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: prayer.timingsList
+                                                  .sublist(0, 6)
+                                                  .map((timings) =>
+                                                      TimeView(pray: timings!))
+                                                  .toList())
+                                          // SizedBox(height: 10,)
+                                        ],
+                                      ),
+                                    )),
+                        ),
                         Center(
                           child: GridView.builder(
                             physics: const BouncingScrollPhysics(),
@@ -190,11 +227,10 @@ Spacer(),
                               },
                               child: Container(
                                 margin: const EdgeInsets.all(16),
-
-
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(.2),
-                                    border: Border.all(color: kMainColor, width: 1),
+                                    border:
+                                        Border.all(color: kMainColor, width: 1),
                                     borderRadius: BorderRadius.circular(16)),
                                 padding: const EdgeInsets.all(8),
                                 alignment: Alignment.center,
@@ -219,7 +255,6 @@ Spacer(),
                                         child: Image.asset(
                                           DrawerUtils.items[index]['imagePath'],
                                           height: SizeConfig.screenHeight * .1,
-
                                         ))
                                   ],
                                 ),
@@ -249,7 +284,7 @@ Spacer(),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      'النسخة 1.0.9',
+                      'النسخة 1.0.10',
                       style: TextStyle(color: Colors.blueGrey),
                     ),
                   )

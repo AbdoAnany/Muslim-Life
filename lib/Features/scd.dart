@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -1395,7 +1396,7 @@ Future<void> zonedScheduleNotification(
   // print(time.toIso8601String());
   // print(tz.TZDateTime.now(tz.local).toIso8601String());
   // print(tz.TZDateTime.now(tz.local).difference(time));
-
+if(time.isAfter(DateTime.now()))
   await flutterLocalNotificationsPlugin.zonedSchedule(
       id ?? 0,
       title ?? 'title',
@@ -1843,8 +1844,27 @@ Future<void> checkPendingNotificationRequests() async {
     context: Get.context,
     builder: (BuildContext context) => AlertDialog(
       content:
-          Text('${pendingNotificationRequests.length} pending notification '
-              'requests'),
+          Column(
+            children: [
+              Text('${pendingNotificationRequests.length} pending notification '
+                  'requests'),
+
+              Container(height: .71.sh,width: 300,
+                  child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount:pendingNotificationRequests.length ,
+                  itemBuilder: (c,i)=>InkWell(
+                     onTap:  (){
+                       flutterLocalNotificationsPlugin.cancel(pendingNotificationRequests[i].id);
+                      },
+                    child: Card(child: Column(children: [
+                      Text('${pendingNotificationRequests[i].title}    '+pendingNotificationRequests[i].id.toString()),
+                      Text('${DateTime.parse(pendingNotificationRequests[i].payload!) .difference(DateTime.now())}\n'),
+                      Text('${pendingNotificationRequests[i].payload}\n'),
+                    ]),),
+                  )))
+            ],
+          ),
       actions: <Widget>[
         TextButton(
           onPressed: () {

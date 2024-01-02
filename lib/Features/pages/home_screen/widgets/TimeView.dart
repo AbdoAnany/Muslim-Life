@@ -16,7 +16,15 @@ class TimeView extends StatelessWidget {
 
     return   Column(
       children: [
-        if(MainBloc.currentPray!.englishName==pray.englishName)
+        if(MainBloc.nextPray?.englishName==pray.englishName)
+        Text(
+          "التالي".toString()??'' ,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: kWhite,fontWeight: FontWeight.bold,letterSpacing: 2,
+
+              fontSize: SizeConfig.screenWidth * .04),
+        ),        if(MainBloc.currentPray?.englishName==pray.englishName)
         Text(
           "الان".toString()??'' ,
           textAlign: TextAlign.center,

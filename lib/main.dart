@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AzkarCubit()..getAzkar()),
+          BlocProvider(create: (context) => AzkarCubit()..getAzkarModel()),
           // BlocProvider(create: (context) => PrayerCubit()),
           BlocProvider(create: (context) => QiblaCubit()),
           BlocProvider(create: (context) => MisbahaCubit()),

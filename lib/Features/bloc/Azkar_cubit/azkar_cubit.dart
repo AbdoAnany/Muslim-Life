@@ -38,18 +38,7 @@ class AzkarCubit extends Cubit<AzkarState> {
   var currentPosition;
   final CarouselController carouselController = CarouselController();
 
-  // Future<void> azkarTapped(AzkarCategory Category) async {
-  //   try {
-  //     azkarList = [];
-  //     textState = 'تحميل الاذكار';
-  //     emit(AzkarLoading());
-  //     azkarList = Category.azkarList!;
-  //
-  //     await onScroll(0);
-  //     textState = 'تم تحميل الاذكار';
-  //     emit(AzkarSuccess());
-  //   } catch (ex) {}
-  // }
+
 
   clearAzkarTappedNew(){
     currentIndex=0;
@@ -87,20 +76,6 @@ class AzkarCubit extends Cubit<AzkarState> {
     emit(AzkarSuccess());
   }
 
-  Future<void> getAzkar() async {
-    print('getAzkar >>>>>');
-    try {
-      textState = 'تحميل الاذكار';
-      emit(AzkarLoading());
-      var jsonText = await rootBundle.loadString('assets/data/azkar.json');
-      dynamic userMap = jsonDecode(jsonText);
-      for (var element in userMap["Azkar"]) {
-        azkarCategoriesList!.add(AzkarCategory.fromJson(element));
-      }
-      textState = 'تم تحميل الاذكار';
-      emit(AzkarSuccess());
-    } catch (ex) {}
-  }
 
 
 
@@ -179,33 +154,7 @@ class AzkarCubit extends Cubit<AzkarState> {
     emit(AzkarSearchSuccess());
   }
 
-//azkarList
-//   Future<void> getazkar() async {
-//     try {
-//       textState = 'تحميل الاذكار';
-//       emit(AzkarLoading());
-//       var jsonText = await rootBundle.loadString('assets/localdb/azkar.json');
-//       dynamic userMap = jsonDecode(jsonText);
-//      List azkarCategoryList=[];
-//       print(userMap[ "Azkar"]);
-//      for(var element in  userMap[ "Azkar"])
-//        {
-//          if(azkarCategoryList.contains(element[ "category"])) {
-//            azkarCategoryList.add(element[ "category"]);
-//          }
-//
-//
-//        }
-//      print(azkarCategoryList);
-//
-//       // var azkar = Azkar.fromJson(userMap).azkar;
-//       // azkarlist = azkar.toSet().toList();
-//       // filteredList.addAll(azkarlist);
-//       textState = 'تم تحميل الاذكار';
-//       onTap();
-//       emit(AzkarSuccess());
-//     } catch (ex) {}
-//   }
+
 }
 
 class Model {
