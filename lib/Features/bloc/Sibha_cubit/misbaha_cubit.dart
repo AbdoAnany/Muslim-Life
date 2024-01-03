@@ -29,7 +29,7 @@ class MisbahaCubit extends Cubit<MisbahaState> {
       ButtonCounter++;
       Groub = ButtonCounter ~/ GroubCounter;
       Counter++;
-      print(GroubCounter);
+      //print(GroubCounter);
       if (Counter == GroubCounter) Counter = 0;
       emit(misbahaClicked());
       //  final player = AudioCache();

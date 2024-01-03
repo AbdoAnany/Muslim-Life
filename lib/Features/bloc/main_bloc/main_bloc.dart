@@ -116,16 +116,13 @@ class MainBloc extends Cubit<MainState> {
     DateTime date = DateTime.now();
     PrayerTimesModel? pray = await PrayerTimesStorage.getPrayerTimes();
     LocationPermission locationPermission = await Geolocator.checkPermission();
-    Permission permission =Permission.accessNotificationPolicy;
-    print('permission value '+(await permission.status).name);
 
     Position log =   Position(longitude: 31.4722447, latitude: 30.2398005, timestamp: date, accuracy: 0.0, altitude: 0.0, altitudeAccuracy: 0.0, heading: 0.0, headingAccuracy: 0.0, speed: 0.0, speedAccuracy: 0.0);
-// print(pray?.toJson());
-//     print(locationPermission.name);
+
     var parser1;
     if (pray == null) {
       if (locationPermission.name == 'denied' || locationPermission.name == 'deniedForever') {
-        print('>>>>>>>>>>>>     GET DATE FROM SERVER  WITHOUT PERMISSION');
+        //print('>>>>>>>>>>>>     GET DATE FROM SERVER  WITHOUT PERMISSION');
         updateTextState(message: "لايمكن  حصول علي الموقع الجغرافي");
         await Geolocator.requestPermission();
       } else {
@@ -135,18 +132,17 @@ class MainBloc extends Cubit<MainState> {
       pray = PrayerTimesModel.fromJson(parser1.data);
       PrayerTimesStorage.savePrayerTimes(pray);
     } else {
-      print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
+      //print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
     }
    //PrayerTimesStorage.savePrayerTimes(pray) ;
-  //   print('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
+  //   //print('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
 
     updateTextState(message: "تحميل بيانات الصلاة لليوم");
     prayList = pray.data!;
-    print(prayList[1].toJson());
-    print(DateFormat("dd-MM-y").format(DateTime.now()));
+
     timings = prayList.firstWhere((element) => element.date!.gregorian!.date == DateFormat("dd-MM-y").format(DateTime.now()).toString()).timings!;
     timingsList = timingsListMethod(timings);
-print(timingsList.length);
+//print(timingsList.length);
 
     currentPray =timingsList.lastWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isBefore(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
     nextPray =timingsList.firstWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));

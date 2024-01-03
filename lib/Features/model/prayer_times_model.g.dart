@@ -24,12 +24,12 @@
 //
 // PrayerData _$PrayerDataFromJson(Map<String, dynamic> json) {
 //
-//       print("ssssss  json['meta']");
-//       print(json['meta']);
-//       print(Meta.fromJson(json['meta']).toJson());
-//       print("ssssss  json['date']");
-//       print(json['date']);
-//       print(Date.fromJson(json['date']).toJson());
+//       //print("ssssss  json['meta']");
+//       //print(json['meta']);
+//       //print(Meta.fromJson(json['meta']).toJson());
+//       //print("ssssss  json['date']");
+//       //print(json['date']);
+//       //print(Date.fromJson(json['date']).toJson());
 //   return PrayerData(
 //       timings: Timings.fromJson(json['timings'] as Map<String, dynamic>),
 //       date: Date.fromJson(json['date'] as Map<String, dynamic>),

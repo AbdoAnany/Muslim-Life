@@ -3,8 +3,10 @@ import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import 'azkarSlider.dart';
 class AzkarItemNew extends StatelessWidget{
   final AzkarCategoryNew item;
@@ -16,20 +18,20 @@ class AzkarItemNew extends StatelessWidget{
     return WidgetAnimator(
       child: GestureDetector(
         onTap: () async {
-          AzkarCubit.get(context).azkarTappedNew(item);
+          AzkarCubit.get(Get.context).azkarTappedNew(item);
           BookMarkAppCubit.clearAzkarDayCount();
           showDialog(
-              context: context,
+              context: Get.context,useSafeArea: false,
               builder: (BuildContext context) {
                 return AzkarSliderNew();
               }).whenComplete(() {
-                print("whenComplete");
+                //print("whenComplete");
             AzkarCubit.get(context).clearAzkarTappedNew();
           });
         },
         child: Container(
           margin: EdgeInsets.all(8),
-          width:MediaQuery.of(context).size.width*.3 ,
+          width:SizeConfig.screenWidth*.3 ,
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius:

@@ -52,11 +52,10 @@ class AzkarCubit extends Cubit<AzkarState> {
       emit(AzkarLoading());
       azkarDataNewList = Category.array!;
       azkarCategoryNew=Category;
-       print(  "Category.toJson()");
-       print(  Category.toJson());
+    
       int index=   BookMarkAppCubit.getAzkarCurrentIndex(Category.category!);
       currentIndex=index;
-      print('BookMarkAppCubit index  ${index}');
+      //print('BookMarkAppCubit index  ${index}');
       await onScrollNew(index);
       carouselController.jumpToPage(index);
 
@@ -86,7 +85,7 @@ class AzkarCubit extends Cubit<AzkarState> {
       Audio('assets/music/click.wav'),
     );
     await player.play();
-    print('player');
+    //print('player');
 
 
   }
@@ -99,8 +98,8 @@ class AzkarCubit extends Cubit<AzkarState> {
       var jsonText = await rootBundle.loadString('assets/data/adhkar.json');
       dynamic userMap = jsonDecode(jsonText);
       azkarNewList = [];
-      // print("userMap[Azkar].toString()");
-      // print(userMap["Azkar"].toString());
+      // //print("userMap[Azkar].toString()");
+      // //print(userMap["Azkar"].toString());
       for (var element in userMap["Azkar"]) {
         azkarNewList!.add(AzkarCategoryNew.fromJson(element));
       }

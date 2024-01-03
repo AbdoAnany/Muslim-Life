@@ -34,22 +34,22 @@ class _BeautifulStepProgressIndicatorState
 
   Future<void> incrementCount() async {
     if (widget.controller.currentCount >= widget.controller.count!) {
-      print('Complete');
+      //print('Complete');
       AzkarCubit.get(context).onTap();
     }
     if(widget.controller.currentCount < widget.controller.count!) {
-      print('NOT  Complete');
+      //print('NOT  Complete');
       widget.controller.currentCount++;
 
       BookMarkAppCubit.saveAzkarItemCount(widget.controller);
     }
     if (widget.controller.currentCount == widget.controller.count!) {
-      print('Complete');
+      //print('Complete');
       AzkarCubit.get(context).onTap();
     }
     await    AzkarCubit.onClick();
     setState(() {
-      print('  currentCount ${widget.controller.currentCount } ======  count  ${ widget.controller.count!}');
+      //print('  currentCount ${widget.controller.currentCount } ======  count  ${ widget.controller.count!}');
 
     });
   }

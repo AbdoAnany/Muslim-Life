@@ -31,8 +31,8 @@ class BookMarkAppCubit extends Cubit<BookMarkAppStates> {
     Set<String> bookmarkKeys = prefs.getKeys();
     bookmarkKeys.forEach((element) async {
       if(element.contains(keyAzkar)&&!element.contains(today)) {
-        print('clearAzkarDayCount ');
-        print('element ${element}   keyAzkar  ${keyAzkar}    today: ${today}');
+        //print('clearAzkarDayCount ');
+        //print('element ${element}   keyAzkar  ${keyAzkar}    today: ${today}');
 
         prefs.setString(element, '');
       }

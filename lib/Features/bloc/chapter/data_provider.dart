@@ -36,7 +36,7 @@ class ChapterDataProvider {
       //   chapters,
       // );
 
-     // chapters.forEach((element) { print(element.nameSearch);});
+     // chapters.forEach((element) { //print(element.nameSearch);});
 
       return chapters;
     } on DioError catch (e) {

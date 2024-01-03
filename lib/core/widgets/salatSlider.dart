@@ -35,14 +35,14 @@
 //         '${item["Time"].toString().replaceAll('(EET)', '').split(":").first}')));
 //     var m1 = ((int.parse(
 //         '${item["Time"].toString().replaceAll('(EET)', '').split(":")[1]}')));
-//     print(h1);
-//     print(m1);
-//     print(m1 + h1 * 60);
+//     //print(h1);
+//     //print(m1);
+//     //print(m1 + h1 * 60);
 //     int a = (m1 + h1 * 60) - hours;
 //     if (a / 60 < 0)
-//       print("${(a / 60).toInt() + 24} : ${a % 60}");
+//       //print("${(a / 60).toInt() + 24} : ${a % 60}");
 //     else
-//       print("${(a / 60).toInt()} : ${a % 60}");
+//       //print("${(a / 60).toInt()} : ${a % 60}");
 //     if (h == '0' && m == '0') return 'الأن حن وقت الصلاة';
 //     // if (h == '0') return 'باقي$mدقيقة';
 //     // if (m == '0') return 'باقي$h ساعة';

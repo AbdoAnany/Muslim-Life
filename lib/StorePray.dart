@@ -68,7 +68,7 @@ class PrayerTimesStorage {
     if (jsonString.isNotEmpty) {
       final map = json.decode(jsonString);
 
-      // print(map.toString());
+      // //print(map.toString());
       return PrayerTimesModel.fromLocalJson(map);
     }
     return null;

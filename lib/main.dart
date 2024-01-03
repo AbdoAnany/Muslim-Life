@@ -7,6 +7,7 @@ import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,13 +31,12 @@ class Get {
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
   // ignore: avoid_print
-  print('notification(${notificationResponse.id}) action tapped: '
-      '${notificationResponse.actionId} with'
-      ' payload: ${notificationResponse.payload}');
+  // //print('notification(${notificationResponse.id}) action tapped: '
+  //     '${notificationResponse.actionId} with'
+  //     ' payload: ${notificationResponse.payload}');
   if (notificationResponse.input?.isNotEmpty ?? false) {
     // ignore: avoid_print
-    print(
-        'notification action tapped with input: ${notificationResponse.input}');
+   // //print('notification action tapped with input: ${notificationResponse.input}');
   }
 }
 
@@ -49,7 +49,8 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp( MyApp());
+
+  runApp(  MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   theme: theme,
                   themeMode: ThemeMode.light,
-                  title: 'أدوات المسلم',
+                  title: 'حياة المسلم',
                   home: SplashScreen());
             }));
   }

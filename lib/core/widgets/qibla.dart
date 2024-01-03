@@ -21,8 +21,8 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
   Future<void> _requestLocationPermission() async {
     LocationPermission a = await FlutterQiblah.requestPermissions();
 
-    print("***** va.name");
-    print(a.name);
+    //print("***** va.name");
+    //print(a.name);
     status = await Permission.location.status;
 
     if (status.isGranted) {

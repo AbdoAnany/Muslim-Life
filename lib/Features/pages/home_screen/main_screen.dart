@@ -19,8 +19,8 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    print(SizeConfig.screenHeight);
-    print(SizeConfig.screenWidth);
+    //print(SizeConfig.screenHeight);
+    //print(SizeConfig.screenWidth);
     return Scaffold(
       backgroundColor: Colors.grey,
       body: BlocBuilder<MainBloc, MainState>(
@@ -71,14 +71,18 @@ class MainScreen extends StatelessWidget {
                             });
                           },
                           child: Container(
-                              constraints: BoxConstraints(
-                                minHeight: SizeConfig.screenHeight * .20,
-                                maxHeight: SizeConfig.screenHeight * .20,
+
+                              height:  SizeConfig.screenWidth * .5,
+
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.screenWidth * .02,
+                                  vertical: SizeConfig.screenHeight * .02,
                               ),
-                              margin:
-                                  EdgeInsets.all(SizeConfig.screenWidth * .02),
                               padding:
-                                  EdgeInsets.all(SizeConfig.screenWidth * .01),
+                                  EdgeInsets.symmetric(
+                                    horizontal: SizeConfig.screenWidth * .01,
+                                    vertical: SizeConfig.screenHeight * .01,
+                                  ),
                               decoration: BoxDecoration(
                                   color: kMainColor,
                                   gradient: LinearGradient(
@@ -126,8 +130,7 @@ class MainScreen extends StatelessWidget {
                                                 "${today.fullDate()}",
                                                 style: TextStyle(
                                                     fontSize:
-                                                        SizeConfig.screenWidth *
-                                                            .055,
+                                                        SizeConfig.screenWidth * .045,
                                                     fontWeight: FontWeight.bold,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -136,42 +139,24 @@ class MainScreen extends StatelessWidget {
                                               Expanded(
                                                   child: Padding(
                                                       padding: EdgeInsets.only(
-                                                          left: SizeConfig
-                                                                  .screenWidth *
-                                                              .007,
-                                                          bottom: SizeConfig
-                                                                  .screenWidth *
-                                                              .007),
+                                                          left: SizeConfig.screenWidth * .007,
+                                                          bottom: SizeConfig.screenWidth * .007),
                                                       child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                           Text(
-                                                            prayer.prayList.first
-                                                                .meta!.timezone!
-                                                                .split('/')[1],
+                                                            prayer.prayList.first.meta!.timezone!.split('/')[1].toUpperCase(),
                                                             style: TextStyle(
-                                                                color: kWhite,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: SizeConfig
-                                                                        .screenWidth *
-                                                                    .050),
+                                                                color: kWhite,letterSpacing: 2,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: SizeConfig.screenWidth * .050),
                                                           ),
                                                           Icon(
-                                                              Icons
-                                                                  .pin_drop_outlined,
+                                                              Icons.pin_drop_outlined,
                                                               color: kWhite,
-                                                              size: SizeConfig
-                                                                      .screenWidth *
-                                                                  .055),
+                                                              size: SizeConfig.screenWidth * .06),
                                                         ],
                                                       ))),
                                             ],
@@ -179,28 +164,20 @@ class MainScreen extends StatelessWidget {
 
                                           Spacer(),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12.0),
+                                            padding:  EdgeInsets.symmetric(vertical: SizeConfig.screenWidth * .01),
                                             child: Text(
                                               'مواقيت الصلاة',
                                               style: TextStyle(
                                                   color: kWhite,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      SizeConfig.screenWidth *
-                                                          .07),
+                                                  fontSize: SizeConfig.screenWidth * .07),
                                             ),
                                           ),
                                           if(prayer.timingsList.length>5)Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: prayer.timingsList
-                                                  .sublist(0, 6)
-                                                  .map((timings) =>
-                                                      TimeView(pray: timings!))
-                                                  .toList())
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: prayer.timingsList.sublist(0, 6).map((timings) =>
+                                                      TimeView(pray: timings!)).toList())
                                           // SizedBox(height: 10,)
                                         ],
                                       ),
@@ -226,11 +203,13 @@ class MainScreen extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                margin: const EdgeInsets.all(16),
+                                margin:  EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.screenWidth * .04,
+                                  vertical: SizeConfig.screenHeight * .02,
+                                ),
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(.2),
-                                    border:
-                                        Border.all(color: kMainColor, width: 1),
+                                    border: Border.all(color: kMainColor, width: 1),
                                     borderRadius: BorderRadius.circular(16)),
                                 padding: const EdgeInsets.all(8),
                                 alignment: Alignment.center,
@@ -243,15 +222,13 @@ class MainScreen extends StatelessWidget {
                                       style: TextStyle(
                                           color: kMainColor,
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              SizeConfig.screenWidth * .05),
+                                          fontSize: SizeConfig.screenWidth * .05),
                                     ),
                                     SizedBox(
                                       height: SizeConfig.screenHeight * 0.01,
                                     ),
                                     Hero(
-                                        tag: DrawerUtils.items[index]
-                                            ['imagePath'],
+                                        tag: DrawerUtils.items[index]['imagePath'],
                                         child: Image.asset(
                                           DrawerUtils.items[index]['imagePath'],
                                           height: SizeConfig.screenHeight * .1,
@@ -284,7 +261,7 @@ class MainScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      'النسخة 1.0.10',
+                      'النسخة 1.0.11',
                       style: TextStyle(color: Colors.blueGrey),
                     ),
                   )

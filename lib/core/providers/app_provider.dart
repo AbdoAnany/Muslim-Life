@@ -15,7 +15,7 @@ class AppProvider extends Cubit<MainState> {
   final _cache = Hive.box('app');
 
   int _first = 0;
-  double fontSize = .03;
+  double fontSize = .04;
   int get checkVisit => _first;
 
   bool init() {

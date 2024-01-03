@@ -74,7 +74,7 @@ const String darwinNotificationCategoryPlain = 'plainCategory';
 /// all the setup has been done
 NotificationAppLaunchDetails? notificationAppLaunchDetails;
 Future<void> NTFConfig() async {
-  print('================   NTFConfig');
+  //print('================   NTFConfig');
   // needed if you intend to initialize in the `main` function
 
   await configureLocalTimeZone();
@@ -1390,12 +1390,12 @@ Future<void> showNotificationCustomVibrationIconLed() async {
 
 Future<void> zonedScheduleNotification(
     {id, title, body, DateTime? dateTime}) async {
-  // print('zonedScheduleNotification ${id}  ===   ${title}');
+  // //print('zonedScheduleNotification ${id}  ===   ${title}');
 
   tz.TZDateTime time = tz.TZDateTime.from(dateTime!, tz.local);
-  // print(time.toIso8601String());
-  // print(tz.TZDateTime.now(tz.local).toIso8601String());
-  // print(tz.TZDateTime.now(tz.local).difference(time));
+  // //print(time.toIso8601String());
+  // //print(tz.TZDateTime.now(tz.local).toIso8601String());
+  // //print(tz.TZDateTime.now(tz.local).difference(time));
 if(time.isAfter(DateTime.now()))
   await flutterLocalNotificationsPlugin.zonedSchedule(
       id ?? 0,
@@ -1835,10 +1835,10 @@ Future<void> checkPendingNotificationRequests() async {
   final List<PendingNotificationRequest> pendingNotificationRequests =
       await flutterLocalNotificationsPlugin.pendingNotificationRequests();
   pendingNotificationRequests.forEach((element) {
-    print(element.id);
-    print(element.title);
-    print(element.payload);
-    print('+++++++++++++++++++++++++++');
+    //print(element.id);
+    //print(element.title);
+    //print(element.payload);
+    //print('+++++++++++++++++++++++++++');
   });
   return showDialog<void>(
     context: Get.context,
@@ -3210,7 +3210,7 @@ class InfoValueString extends StatelessWidget {
 //   final tz.TZDateTime scheduledDate1 =
 //   // tz.TZDateTime.from(DateTime.parse('${DateTime.now().toString().split(' ')[0]}' +" " + scheduledDate!), tz.local);
 //   tz.TZDateTime.from(DateTime.now().add(Duration(seconds: 80)), tz.local);
-//   print(scheduledDate1);
+//   //print(scheduledDate1);
 //
 //   await flutterLocalNotificationsPlugin.zonedSchedule(
 //     id,

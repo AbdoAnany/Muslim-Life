@@ -1,7 +1,7 @@
 name: azkar
 description: A new Flutter project.
 publish_to: 'none'
-version: 1.0.10+10
+version: 1.0.12+12
 environment:
   sdk: ">=3.0.0  <4.0.0"
 
@@ -31,6 +31,7 @@ dependencies:
   flutter_timezone: ^1.0.7
   assets_audio_player: ^3.1.1
   flutter_screenutil: ^5.9.0
+  device_preview: ^1.1.0
 
 flutter_icons:
   android: "launcher_icon"

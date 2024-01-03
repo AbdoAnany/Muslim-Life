@@ -43,7 +43,7 @@ class Data {
 //   List<String> pray = [];
 //   Timings.fromJson(Map<String, dynamic> json) {
 //
-//     print(json);
+//     //print(json);
 //     fajr = (int.parse((json['Fajr'].toString().split(' ')[0].split(':')[0])))
 //         .toString();
 //     sunrise =
@@ -144,10 +144,10 @@ class Timings {
   List<String> image=[];
 
   Timings.fromJson(Map<String, dynamic> json) {
-    print('4444444444');
-    fajr = _formatTime(json['Fajr']);    print('fajr');
-    sunrise = _formatTime(json['Sunrise']);  print('Sunrise');
-    dhuhr = _formatTime(json['Dhuhr'], is12HourFormat: true); print('Dhuhr');
+    //print('4444444444');
+    fajr = _formatTime(json['Fajr']);    //print('fajr');
+    sunrise = _formatTime(json['Sunrise']);  //print('Sunrise');
+    dhuhr = _formatTime(json['Dhuhr'], is12HourFormat: true); //print('Dhuhr');
     asr = _formatTime(json['Asr'], is12HourFormat: true);
     sunset = json['Sunset'];
     maghrib = _formatTime(json['Maghrib'], is12HourFormat: true);
@@ -174,8 +174,8 @@ class Timings {
 
   String _formatTime(String timeString, {bool is12HourFormat = false}) {
     final time = DateTime.tryParse('2023-08-06'+" " + timeString.split(' ')[0]);
-    print(time.toString());
-    print(timeString);
+    //print(time.toString());
+    //print(timeString);
     final formatter = DateFormat(is12HourFormat ? 'hh:mm' : 'HH:mm');
     return formatter.format(time!);
   }
