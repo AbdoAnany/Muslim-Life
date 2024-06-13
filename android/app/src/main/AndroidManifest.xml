@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
    <application
-        android:label="أدوات المسلم"
+        android:label="حياة المسلم"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
        android:icon="@mipmap/launcher_icon">

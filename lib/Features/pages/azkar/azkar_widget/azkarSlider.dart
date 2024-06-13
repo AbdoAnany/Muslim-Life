@@ -10,6 +10,7 @@ import 'package:azkar/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -382,14 +383,23 @@ class AzkarCartWidget extends StatelessWidget {
           SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: kMainColor.withOpacity(.2),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: kMainColor.withOpacity(.01),
+
+                  ),
+                  padding:  EdgeInsets.all(20.w),
+                  margin:  EdgeInsets.all(20.w),
                   child: Text(
                     '${text}',
                     textDirection: TextDirection.rtl,
                     style: TextStyle(
-                      color: Colors.blueGrey.shade700,
-                      fontSize: SizeConfig.screenWidth * .06,height: 1.8,
+                      color: Colors.blueGrey.shade800,
+                      fontSize: 22 .w,height: 1.8,
                       fontWeight: FontWeight.normal,
                     ),
                     textAlign: TextAlign.justify,

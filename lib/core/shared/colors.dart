@@ -7,4 +7,4 @@ const kWhite = Colors.white;
 const Golden = Colors.amberAccent;
 
 const DarkGolden =  Colors.white;
-const LightGolden = Colors.white;
+const LightGolden = Colors.grey;

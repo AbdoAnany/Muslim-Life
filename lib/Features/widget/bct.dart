@@ -85,15 +85,15 @@ class _BeautifulStepProgressIndicatorState
           //     Color(0xffa18e6d)],
           // ),
           child: Center(
-            child: Text(
-              widget.controller.currentCount.toString(),
+            child:       Text(
+              (  widget.controller.count!-   widget.controller.currentCount).toString(),
               textAlign: TextAlign.center,
               textDirection: TextDirection.rtl,
               style: TextStyle(
                   fontSize: 50,
                   color: //ThemeAppCubit.get(context).IsDark? Colors.white:
-                      Color(0xff3e3e3e),
-                  fontWeight: FontWeight.bold),
+                  Color(0xff3e3e3e),
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ),

@@ -261,7 +261,7 @@ class MainScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      'النسخة 1.0.11',
+                      'النسخة 1.0.13',
                       style: TextStyle(color: Colors.blueGrey),
                     ),
                   )
