@@ -5,7 +5,7 @@ import 'colors.dart';
 
 ThemeData theme = ThemeData(
   //ThemeColors
-  backgroundColor: Backgroundcolor,
+  scaffoldBackgroundColor: Backgroundcolor,
   primaryColor: kMainColor,
   disabledColor: DarkGolden,
 
