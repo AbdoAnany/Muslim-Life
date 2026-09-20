@@ -38,7 +38,7 @@ class AppCubit extends Cubit<AppStates> {
       title: 'حصن المسلم',
       photo: 'pray.png',
       subtype: ApiSubType.Open_view,
-      appModel: AppModel.azkarElyome,
+      appModel: AppModel.hisnMuslim,
     ),
     ApiModel.home(
       itemId: '05',

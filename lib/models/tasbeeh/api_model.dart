@@ -6,6 +6,7 @@ enum AppModel {
   doaaInQuran,
   firstInIslam,
   azkarElyome,
+  hisnMuslim,
   islamEvents,
   convertDate,
   about,

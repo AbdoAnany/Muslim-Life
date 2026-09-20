@@ -54,6 +54,7 @@ class AppRoutes {
       case AppModel.hades:
       case AppModel.doaaInQuran:
       case AppModel.firstInIslam:
+      case AppModel.azkarElyome:
       case AppModel.islamEvents:
         Navigator.push(
           context,
@@ -62,7 +63,7 @@ class AppRoutes {
           ),
         );
         break;
-      case AppModel.azkarElyome:
+      case AppModel.hisnMuslim:
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const AzkarIndexScreen()),
