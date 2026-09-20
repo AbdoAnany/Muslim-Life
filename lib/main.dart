@@ -16,7 +16,6 @@ import 'package:azkar/core/widgets/home_widget_bridge.dart';
 import 'package:azkar/features/content/content_favorites_store.dart';
 import 'package:azkar/helper/db_sqlite_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,6 +89,12 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+            builder: (context, child) {
+              return Directionality(
+                textDirection: TextDirection.rtl,
+                child: child ?? const SizedBox.shrink(),
+              );
+            },
             title: AppContact.appName,
             home: const SplashScreen(),
           );

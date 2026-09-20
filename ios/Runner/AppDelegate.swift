@@ -3,13 +3,14 @@ import Flutter
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
+  private var audioPluginRegistered = false
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    registerAudioPluginIfNeeded()
     DispatchQueue.main.async { [weak self] in
       self?.registerAudioPluginIfNeeded()
     }
@@ -22,31 +23,31 @@ import Flutter
   }
 
   private func registerAudioPluginIfNeeded() {
-    if let registrar = registrar(forPlugin: "AudioBundlePlugin") {
-      AudioBundlePlugin.register(with: registrar)
+    guard !audioPluginRegistered else { return }
+
+    guard let controller = resolveFlutterViewController(),
+          let registrar = controller.registrar(forPlugin: "AudioBundlePlugin") else {
+      NSLog("AppDelegate: FlutterViewController not ready for AudioBundlePlugin")
       return
     }
 
+    AudioBundlePlugin.register(with: registrar)
+    audioPluginRegistered = true
+  }
+
+  private func resolveFlutterViewController() -> FlutterViewController? {
     if let controller = window?.rootViewController as? FlutterViewController {
-      AudioBundlePlugin.register(
-        with: controller.registrar(forPlugin: "AudioBundlePlugin")!
-      )
-      return
+      return controller
     }
 
     for scene in UIApplication.shared.connectedScenes {
       guard let windowScene = scene as? UIWindowScene else { continue }
       for window in windowScene.windows {
-        guard let controller = window.rootViewController as? FlutterViewController else {
-          continue
+        if let controller = window.rootViewController as? FlutterViewController {
+          return controller
         }
-        AudioBundlePlugin.register(
-          with: controller.registrar(forPlugin: "AudioBundlePlugin")!
-        )
-        return
       }
     }
-
-    NSLog("AppDelegate: Flutter registrar not ready for AudioBundlePlugin")
+    return nil
   }
 }

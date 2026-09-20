@@ -35,6 +35,7 @@ dependencies:
   path: ^1.9.0
   just_audio: ^0.9.42
   just_audio_background: ^0.0.1-beta.13
+  audio_session: ^0.1.25
   webview_flutter: ^4.10.0
   home_widget: ^0.7.0
   http: ^1.2.2
