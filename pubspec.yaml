@@ -26,7 +26,6 @@ dependencies:
   step_progress_indicator: ^1.0.2
   permission_handler: ^11.1.0
   flutter_timezone: ^1.0.7
-  assets_audio_player: ^3.1.1
   flutter_screenutil: ^5.9.0
   device_preview: ^1.1.0
   sqflite: ^2.3.3

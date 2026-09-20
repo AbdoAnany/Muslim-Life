@@ -1,5 +1,8 @@
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
+import 'package:azkar/core/audio/app_audio.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';

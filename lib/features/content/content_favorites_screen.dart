@@ -1,5 +1,7 @@
 import 'package:azkar/app_routes.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/empty_state.dart';
 import 'package:azkar/features/content/content_favorites_store.dart';
 import 'package:azkar/features/content/tasbeeh_content_repository.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
@@ -50,17 +52,12 @@ class _ContentFavoritesScreenState extends State<ContentFavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('المفضلة'),
-          backgroundColor: kMainColor,
-        ),
-        body: _loading
+    return AppScaffold(
+      title: 'المفضلة',
+      body: _loading
             ? const Center(child: CircularProgressIndicator())
             : _items.isEmpty
-                ? const Center(child: Text('لا توجد عناصر في المفضلة'))
+                ? const EmptyState(message: 'لا توجد عناصر في المفضلة')
                 : ListView.separated(
                     itemCount: _items.length,
                     separatorBuilder: (_, __) => const Divider(height: 1),
@@ -72,7 +69,7 @@ class _ContentFavoritesScreenState extends State<ContentFavoritesScreen> {
                             ? Text(item.description)
                             : null,
                         trailing: IconButton(
-                          icon: Icon(Icons.bookmark, color: kMainColor),
+                          icon: const Icon(Icons.bookmark, color: AppTokens.brand),
                           onPressed: () async {
                             await _store.toggle(item.appModel, item.itemId);
                           },
@@ -81,7 +78,6 @@ class _ContentFavoritesScreenState extends State<ContentFavoritesScreen> {
                       );
                     },
                   ),
-      ),
     );
   }
 }

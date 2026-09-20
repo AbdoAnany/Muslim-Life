@@ -1,7 +1,8 @@
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
 import 'package:azkar/Features/pages/home_screen/widgets/TimeView.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,20 +33,15 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('مواقيت الصلاة'),
-          backgroundColor: kMainColor,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.my_location),
-              onPressed: _requestLocation,
-            ),
-          ],
+    return AppScaffold(
+      title: 'مواقيت الصلاة',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.my_location),
+          onPressed: _requestLocation,
         ),
-        body: BlocBuilder<MainBloc, MainState>(
+      ],
+      body: BlocBuilder<MainBloc, MainState>(
           builder: (context, state) {
             final bloc = MainBloc.get(context);
             if (bloc.prayList.isEmpty) {
@@ -64,7 +60,7 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
               );
             }
             return ListView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTokens.spaceMd),
               children: [
                 if (MainBloc.currentPray != null)
                   Text(
@@ -81,7 +77,6 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
             );
           },
         ),
-      ),
     );
   }
 }

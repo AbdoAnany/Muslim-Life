@@ -1,4 +1,7 @@
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_card.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -44,11 +47,10 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
       await _player.play();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('تعذر تشغيل الصوت: ${_shortError(e)}'),
-          backgroundColor: Colors.red.shade700,
-        ),
+      showAppSnackBar(
+        context,
+        'تعذر تشغيل الصوت: ${_shortError(e)}',
+        isError: true,
       );
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -71,15 +73,10 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('القرآن — صوت'),
-          backgroundColor: kMainColor,
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(16),
+    return AppScaffold(
+      title: 'القرآن — صوت',
+      body: ListView(
+          padding: const EdgeInsets.all(AppTokens.spaceMd),
           children: [
             Row(
               children: [
@@ -101,12 +98,12 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
             ),
             if (_loading) const LinearProgressIndicator(),
             ..._reciters.map(
-              (r) => Card(
+              (r) => AppCard(
                 child: ListTile(
                   title: Text(r.name),
                   subtitle: Text(r.edition, style: const TextStyle(fontSize: 11)),
                   trailing: IconButton(
-                    icon: const Icon(Icons.play_arrow),
+                    icon: const Icon(Icons.play_arrow, color: AppTokens.brand),
                     onPressed: _loading ? null : () => _play(r),
                   ),
                 ),
@@ -114,7 +111,6 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
             ),
           ],
         ),
-      ),
     );
   }
 }

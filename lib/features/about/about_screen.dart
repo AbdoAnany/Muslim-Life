@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:azkar/core/config/app_contact.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:share_plus/share_plus.dart';
@@ -42,21 +44,20 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('عن التطبيق'),
-          backgroundColor: kMainColor,
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(16),
+    final hasContact = AppContact.supportEmail.isNotEmpty ||
+        AppContact.phoneE164.isNotEmpty ||
+        AppContact.whatsAppE164.isNotEmpty;
+
+    return AppScaffold(
+      title: 'عن التطبيق',
+      body: ListView(
+          padding: const EdgeInsets.all(AppTokens.spaceMd),
           children: [
             Text(
               AppContact.appName,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: kMainColor,
+                    color: AppTokens.brand,
                   ),
               textAlign: TextAlign.center,
             ),
@@ -66,48 +67,47 @@ class AboutScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(height: 1.6),
             ),
-            const SizedBox(height: 24),
-            _sectionTitle(context, 'اتصل بنا'),
-            Card(
-              child: Column(
-                children: [
-                  _actionTile(
-                    icon: Icons.mail_outline,
-                    title: 'البريد الإلكتروني',
-                    subtitle: AppContact.supportEmail.isEmpty
-                        ? 'غير مُعد — عدّل lib/core/config/app_contact.dart'
-                        : AppContact.supportEmail,
-                    enabled: AppContact.supportEmail.isNotEmpty,
-                    onTap: () => _launch('mailto:${AppContact.supportEmail}'),
-                  ),
-                  const Divider(height: 1),
-                  _actionTile(
-                    icon: Icons.call_outlined,
-                    title: 'الهاتف',
-                    subtitle: AppContact.phoneE164.isEmpty
-                        ? 'غير مُعد'
-                        : AppContact.phoneE164,
-                    enabled: AppContact.phoneE164.isNotEmpty,
-                    onTap: () => _launch('tel:${AppContact.phoneE164}'),
-                  ),
-                  const Divider(height: 1),
-                  _actionTile(
-                    icon: Icons.chat_outlined,
-                    title: 'واتساب',
-                    subtitle: AppContact.whatsAppE164.isEmpty
-                        ? 'غير مُعد'
-                        : AppContact.whatsAppE164,
-                    enabled: AppContact.whatsAppE164.isNotEmpty,
-                    onTap: () {
-                      final digits = AppContact.whatsAppE164.replaceAll(RegExp(r'[^\d+]'), '');
-                      _launch('https://wa.me/${digits.replaceFirst('+', '')}');
-                    },
-                  ),
-                ],
+            const SizedBox(height: AppTokens.spaceLg),
+            if (hasContact) ...[
+              SectionHeader('اتصل بنا'),
+              Card(
+                child: Column(
+                  children: [
+                    if (AppContact.supportEmail.isNotEmpty) ...[
+                      _actionTile(
+                        icon: Icons.mail_outline,
+                        title: 'البريد الإلكتروني',
+                        subtitle: AppContact.supportEmail,
+                        onTap: () => _launch('mailto:${AppContact.supportEmail}'),
+                      ),
+                      const Divider(height: 1),
+                    ],
+                    if (AppContact.phoneE164.isNotEmpty) ...[
+                      _actionTile(
+                        icon: Icons.call_outlined,
+                        title: 'الهاتف',
+                        subtitle: AppContact.phoneE164,
+                        onTap: () => _launch('tel:${AppContact.phoneE164}'),
+                      ),
+                      const Divider(height: 1),
+                    ],
+                    if (AppContact.whatsAppE164.isNotEmpty)
+                      _actionTile(
+                        icon: Icons.chat_outlined,
+                        title: 'واتساب',
+                        subtitle: AppContact.whatsAppE164,
+                        onTap: () {
+                          final digits = AppContact.whatsAppE164
+                              .replaceAll(RegExp(r'[^\d+]'), '');
+                          _launch('https://wa.me/${digits.replaceFirst('+', '')}');
+                        },
+                      ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            _sectionTitle(context, 'التطبيق'),
+              const SizedBox(height: AppTokens.spaceMd),
+            ],
+            SectionHeader('التطبيق'),
             Card(
               child: Column(
                 children: [
@@ -157,19 +157,6 @@ class AboutScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _sectionTitle(BuildContext context, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-      ),
     );
   }
 
@@ -182,7 +169,7 @@ class AboutScreen extends StatelessWidget {
   }) {
     return ListTile(
       enabled: enabled,
-      leading: Icon(icon, color: enabled ? kMainColor : Colors.grey),
+      leading: Icon(icon, color: enabled ? AppTokens.brand : Colors.grey),
       title: Text(title),
       subtitle: subtitle != null ? Text(subtitle) : null,
       trailing: const Icon(Icons.chevron_left),

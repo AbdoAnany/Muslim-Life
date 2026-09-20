@@ -1,5 +1,6 @@
 import 'package:azkar/app_routes.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:azkar/features/content/content_favorites_store.dart';
 import 'package:azkar/features/content/tasbeeh_content_repository.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
@@ -51,11 +52,9 @@ class _ContentListScreenState extends State<ContentListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: Text(widget.title), backgroundColor: kMainColor),
-        body: _loading
+    return AppScaffold(
+      title: widget.title,
+      body: _loading
             ? const Center(child: CircularProgressIndicator())
             : ListView.separated(
                 itemCount: _items.length,
@@ -74,7 +73,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
                           IconButton(
                             icon: Icon(
                               isFav ? Icons.bookmark : Icons.bookmark_border,
-                              color: isFav ? kMainColor : null,
+                              color: isFav ? AppTokens.brand : null,
                             ),
                             onPressed: () =>
                                 _store.toggle(widget.catalog, item.itemId),
@@ -86,7 +85,6 @@ class _ContentListScreenState extends State<ContentListScreen> {
                   );
                 },
               ),
-      ),
     );
   }
 }

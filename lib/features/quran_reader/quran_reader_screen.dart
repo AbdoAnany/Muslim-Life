@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,14 +49,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('القرآن — نص وتفسير'),
-          backgroundColor: kMainColor,
-        ),
-        body: _loading
+    return AppScaffold(
+      title: 'القرآن — نص وتفسير',
+      body: _loading
             ? const Center(child: CircularProgressIndicator())
             : Row(
                 children: [
@@ -81,7 +77,6 @@ class _QuranReaderScreenState extends State<QuranReaderScreen> {
                   )),
                 ],
               ),
-      ),
     );
   }
 }
@@ -114,7 +109,7 @@ class _AyahList extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'التفسير: $tafsir',
-                  style: TextStyle(fontSize: 15, color: Colors.teal.shade800, height: 1.5),
+                  style: TextStyle(fontSize: 15, color: AppTokens.brandDark, height: 1.5),
                   textAlign: TextAlign.right,
                 ),
               ],

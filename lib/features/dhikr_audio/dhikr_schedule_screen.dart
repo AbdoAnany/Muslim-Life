@@ -1,9 +1,12 @@
+import 'package:azkar/core/audio/app_audio.dart';
 import 'package:azkar/core/notifications/app_notification_service.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/app_snackbar.dart';
+import 'package:azkar/core/widgets/dls/empty_state.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
-import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/models/tasbeeh/build_azkar.dart';
 import 'package:azkar/models/tasbeeh/zeker_model.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 class DhikrScheduleScreen extends StatefulWidget {
@@ -14,7 +17,6 @@ class DhikrScheduleScreen extends StatefulWidget {
 }
 
 class _DhikrScheduleScreenState extends State<DhikrScheduleScreen> {
-  final AssetsAudioPlayer _player = AssetsAudioPlayer();
   List<ZekerModel> _pending = [];
   bool _loading = true;
 
@@ -49,57 +51,57 @@ class _DhikrScheduleScreenState extends State<DhikrScheduleScreen> {
   }
 
   Future<void> _play(ZekerModel zeker) async {
-    try {
-      await _player.open(Audio('assets/music/click.wav'));
-      await _player.play();
-    } catch (_) {}
+    final err = await AppAudio.playDhikr(zeker);
+    if (!mounted || err == null) return;
+    showAppSnackBar(context, err, isError: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('قائمة التنبيهات'), backgroundColor: kMainColor),
-        bottomNavigationBar: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: ElevatedButton(
-              onPressed: _stop,
-              child: const Text('إيقاف الأذكار'),
-            ),
+    return AppScaffold(
+      title: 'قائمة التنبيهات',
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppTokens.spaceMd),
+          child: ElevatedButton(
+            onPressed: _stop,
+            child: const Text('إيقاف الأذكار'),
           ),
         ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : _pending.isEmpty
-                ? const Center(child: Text('لا توجد تنبيهات مجدولة'))
-                : ListView.builder(
-                    itemCount: _pending.length,
-                    itemBuilder: (context, index) {
-                      final z = _pending[index];
-                      return Dismissible(
-                        key: ValueKey(z.notficationId),
-                        background: Container(color: Colors.red),
-                        onDismissed: (_) async {
-                          await AppNotificationService.instance
-                              .cancel(z.notficationId ?? 0);
-                          _refresh();
-                        },
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _pending.isEmpty
+              ? const EmptyState(message: 'لا توجد تنبيهات مجدولة')
+              : ListView.builder(
+                  padding: const EdgeInsets.all(AppTokens.spaceMd),
+                  itemCount: _pending.length,
+                  itemBuilder: (context, index) {
+                    final z = _pending[index];
+                    return Dismissible(
+                      key: ValueKey(z.notficationId),
+                      background: Container(color: AppTokens.error),
+                      onDismissed: (_) async {
+                        await AppNotificationService.instance
+                            .cancel(z.notficationId ?? 0);
+                        _refresh();
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(bottom: AppTokens.spaceSm),
                         child: ListTile(
                           title: Text(z.zeker_name),
                           subtitle: Text(z.notficationScheduledDate != null
                               ? z.scheduledDate()
                               : 'كل ساعة — دقيقة ${z.notficationScheduledMinute}'),
                           trailing: IconButton(
-                            icon: const Icon(Icons.play_circle),
+                            icon: const Icon(Icons.play_circle, color: AppTokens.brand),
                             onPressed: () => _play(z),
                           ),
                         ),
-                      );
-                    },
-                  ),
-      ),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }

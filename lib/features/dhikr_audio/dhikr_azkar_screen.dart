@@ -1,14 +1,17 @@
 import 'dart:io';
 
 import 'package:azkar/app_routes.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/audio/app_audio.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_card.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/app_snackbar.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
 import 'package:azkar/models/tasbeeh/build_azkar.dart';
 import 'package:azkar/models/tasbeeh/build_notifications.dart';
 import 'package:azkar/models/tasbeeh/sleep_hour_class.dart';
 import 'package:azkar/models/tasbeeh/zeker_model.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +25,6 @@ class DhikrAzkarScreen extends StatefulWidget {
 
 class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
   final BuildAzkar _builder = BuildAzkar();
-  final AssetsAudioPlayer _player = AssetsAudioPlayer();
   List<ZekerModel> _zekerList = [];
   List<ZekerModel> _selected = [];
   int _segment = 1;
@@ -43,9 +45,7 @@ class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
 
   Future<void> _schedule() async {
     if (_selected.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('اختر ذكراً واحداً على الأقل')),
-      );
+      showAppSnackBar(context, 'اختر ذكراً واحداً على الأقل', isError: true);
       return;
     }
     setState(() => _scheduling = true);
@@ -86,8 +86,10 @@ class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
                       if (Platform.isAndroid &&
                           selectedHours == 0 &&
                           selectedMinutes < 3) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('أقل فترة على أندرويد: ٣ دقائق')),
+                        showAppSnackBar(
+                          context,
+                          'أقل فترة على أندرويد: ٣ دقائق',
+                          isError: true,
                         );
                         return;
                       }
@@ -148,39 +150,39 @@ class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
   }
 
   Future<void> _play(ZekerModel zeker) async {
-    try {
-      await _player.open(Audio('assets/music/click.wav'));
-      await _player.play();
-    } catch (_) {}
+    final err = await AppAudio.playDhikr(zeker);
+    if (!mounted || err == null) return;
+    showAppSnackBar(context, err, isError: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('الأذكار الصوتية'), backgroundColor: kMainColor),
-        bottomNavigationBar: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: ElevatedButton(
-              onPressed: _scheduling ? null : _schedule,
-              child: Text(_scheduling ? 'جاري إنشاء التذكيرات...' : 'تشغيل الأذكار'),
-            ),
+    return AppScaffold(
+      title: 'الأذكار الصوتية',
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppTokens.spaceMd),
+          child: ElevatedButton(
+            onPressed: _scheduling ? null : _schedule,
+            child: Text(_scheduling ? 'جاري إنشاء التذكيرات...' : 'تشغيل الأذكار'),
           ),
         ),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  ListTile(
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(AppTokens.spaceMd),
+              children: [
+                AppCard(
+                  child: ListTile(
                     title: const Text('تشغيل الذكر كل'),
                     subtitle: Text('${_builder.everyTime.hours}:${_builder.everyTime.minutes}'),
                     trailing: const Icon(Icons.chevron_left),
                     onTap: _pickInterval,
                   ),
-                  SwitchListTile(
+                ),
+                AppCard(
+                  child: SwitchListTile(
                     title: const Text('إيقاف الذكر أثناء النوم'),
                     subtitle: Text(_builder.stopTimeFormate()),
                     value: _builder.sleepTime.stopAt,
@@ -191,45 +193,45 @@ class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
                       });
                     },
                   ),
-                  if (_builder.sleepTime.stopAt)
-                    TextButton(
-                      onPressed: () async {
-                        await SleepHourClass.showTimeRange(context);
-                        setState(() => _builder.sleepTime = SleepHourClass.get());
-                      },
-                      child: const Text('تعديل وقت النوم'),
-                    ),
-                  CupertinoSegmentedControl<int>(
-                    groupValue: _segment,
-                    children: const {
-                      0: Padding(padding: EdgeInsets.all(8), child: Text('تكرار')),
-                      1: Padding(padding: EdgeInsets.all(8), child: Text('أذكار')),
-                      2: Padding(padding: EdgeInsets.all(8), child: Text('دعاء')),
-                      3: Padding(padding: EdgeInsets.all(8), child: Text('قرآن')),
+                ),
+                if (_builder.sleepTime.stopAt)
+                  TextButton(
+                    onPressed: () async {
+                      await SleepHourClass.showTimeRange(context);
+                      setState(() => _builder.sleepTime = SleepHourClass.get());
                     },
-                    onValueChanged: (v) async {
-                      _segment = v;
-                      setState(() => _loading = true);
-                      await _load();
-                    },
+                    child: const Text('تعديل وقت النوم'),
                   ),
-                  const SizedBox(height: 12),
-                  ..._zekerList.map((z) {
-                    final selected = _selected.any((e) => e.zeker_id == z.zeker_id && e.selected);
-                    return Card(
-                      child: ListTile(
-                        leading: Checkbox(value: selected, onChanged: (v) => _toggle(z, v)),
-                        title: Text(z.zeker_name),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.play_circle),
-                          onPressed: () => _play(z),
-                        ),
+                CupertinoSegmentedControl<int>(
+                  groupValue: _segment,
+                  children: const {
+                    0: Padding(padding: EdgeInsets.all(8), child: Text('تكرار')),
+                    1: Padding(padding: EdgeInsets.all(8), child: Text('أذكار')),
+                    2: Padding(padding: EdgeInsets.all(8), child: Text('دعاء')),
+                    3: Padding(padding: EdgeInsets.all(8), child: Text('قرآن')),
+                  },
+                  onValueChanged: (v) async {
+                    _segment = v;
+                    setState(() => _loading = true);
+                    await _load();
+                  },
+                ),
+                const SizedBox(height: AppTokens.spaceMd),
+                ..._zekerList.map((z) {
+                  final selected = _selected.any((e) => e.zeker_id == z.zeker_id && e.selected);
+                  return AppCard(
+                    child: ListTile(
+                      leading: Checkbox(value: selected, onChanged: (v) => _toggle(z, v)),
+                      title: Text(z.zeker_name),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.play_circle, color: AppTokens.brand),
+                        onPressed: () => _play(z),
                       ),
-                    );
-                  }),
-                ],
-              ),
-      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
     );
   }
 }
