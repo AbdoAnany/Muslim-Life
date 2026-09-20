@@ -8,30 +8,33 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 /// Shared [just_audio] helpers for click SFX, dhikr mp3s, and previews.
+///
+/// Uses a single [AudioPlayer] because [JustAudioBackground] supports only one
+/// native player instance per app.
 class AppAudio {
   AppAudio._();
 
-  static final AudioPlayer _clickPlayer = AudioPlayer();
-  static final AudioPlayer _dhikrPlayer = AudioPlayer();
+  static final AudioPlayer player = AudioPlayer();
 
-  static AudioPlayer get dhikrPlayer => _dhikrPlayer;
+  /// Legacy alias for dhikr/schedule screens.
+  static AudioPlayer get dhikrPlayer => player;
 
   /// Plays `assets/music/click.wav`; failures are swallowed (no crash).
   static Future<void> playClick() async {
     try {
       await BundleAudioChannel.preparePlayback();
-      await _clickPlayer.stop();
-      await _clickPlayer.setAudioSource(
+      await player.stop();
+      await player.setAudioSource(
         AudioSource.asset(
           'assets/music/click.wav',
           tag: const MediaItem(
             id: 'click_sfx',
             title: 'نقر',
-            playable: true,
+            artist: 'حياة المسلم',
           ),
         ),
       );
-      await _clickPlayer.play();
+      await player.play();
     } catch (e, st) {
       debugPrint('AppAudio.playClick: $e\n$st');
     }
@@ -44,13 +47,13 @@ class AppAudio {
     final baseName = rawBaseNameFor(zeker);
     try {
       await BundleAudioChannel.preparePlayback();
-      await _dhikrPlayer.stop();
+      await player.stop();
       final source = await _sourceForZeker(zeker, baseName);
       if (source == null) {
         return 'ملف الصوت غير متوفر على هذا الجهاز ($baseName)';
       }
-      await _dhikrPlayer.setAudioSource(source);
-      await _dhikrPlayer.play();
+      await player.setAudioSource(source);
+      await player.play();
       return null;
     } catch (e, st) {
       debugPrint('AppAudio.playDhikr($baseName): $e\n$st');
@@ -60,6 +63,10 @@ class AppAudio {
 
   @visibleForTesting
   static String rawBaseNameFor(ZekerModel zeker) {
+    final fromModel = zeker.fullFileName?.trim();
+    if (fromModel != null && fromModel.isNotEmpty) {
+      return fromModel;
+    }
     return DhikrSoundNames.rawBaseName(
       zekerId: zeker.zeker_id,
       chooseRepeat: zeker.choose_repeat,
@@ -76,8 +83,8 @@ class AppAudio {
     final tag = MediaItem(
       id: 'dhikr_$baseName',
       title: zeker.zeker_name,
-      album: 'أذكار',
-      playable: true,
+      artist: 'أذكار',
+      album: 'حياة المسلم',
     );
 
     if (Platform.isAndroid) {
@@ -100,14 +107,13 @@ class AppAudio {
       final filePath = await BundleAudioChannel.bundleResourcePath(baseName);
       if (filePath == null) return null;
       debugPrint('AppAudio: iOS dhikr path resolved: $filePath');
-      return AudioSource.file(filePath, tag: tag);
+      return AudioSource.uri(Uri.file(filePath), tag: tag);
     }
 
     return null;
   }
 
   static Future<void> disposeAll() async {
-    await _clickPlayer.dispose();
-    await _dhikrPlayer.dispose();
+    await player.dispose();
   }
 }

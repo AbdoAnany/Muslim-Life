@@ -1,3 +1,4 @@
+import 'package:azkar/core/audio/app_audio.dart';
 import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/widgets/dls/app_card.dart';
 import 'package:azkar/core/widgets/dls/app_scaffold.dart';
@@ -15,7 +16,6 @@ class QuranRecitersScreen extends StatefulWidget {
 }
 
 class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
-  final _player = AudioPlayer();
   bool _loading = false;
 
   /// Only editions that return HTTP 200 on the audio-surah CDN.
@@ -33,8 +33,8 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
       _loading = true;
     });
     try {
-      await _player.stop();
-      await _player.setAudioSource(
+      await AppAudio.player.stop();
+      await AppAudio.player.setAudioSource(
         AudioSource.uri(
           Uri.parse(url),
           tag: MediaItem(
@@ -44,7 +44,7 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
           ),
         ),
       );
-      await _player.play();
+      await AppAudio.player.play();
     } catch (e) {
       if (!mounted) return;
       showAppSnackBar(
@@ -63,12 +63,6 @@ class _QuranRecitersScreenState extends State<QuranRecitersScreen> {
       return 'الملف غير متاح أو الشبكة فشلت';
     }
     return s.length > 120 ? '${s.substring(0, 120)}…' : s;
-  }
-
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
   }
 
   @override

@@ -22,10 +22,31 @@ import Flutter
   }
 
   private func registerAudioPluginIfNeeded() {
-    guard let registrar = registrar(forPlugin: "AudioBundlePlugin") else {
-      NSLog("AppDelegate: Flutter registrar not ready for AudioBundlePlugin")
+    if let registrar = registrar(forPlugin: "AudioBundlePlugin") {
+      AudioBundlePlugin.register(with: registrar)
       return
     }
-    AudioBundlePlugin.register(with: registrar)
+
+    if let controller = window?.rootViewController as? FlutterViewController {
+      AudioBundlePlugin.register(
+        with: controller.registrar(forPlugin: "AudioBundlePlugin")!
+      )
+      return
+    }
+
+    for scene in UIApplication.shared.connectedScenes {
+      guard let windowScene = scene as? UIWindowScene else { continue }
+      for window in windowScene.windows {
+        guard let controller = window.rootViewController as? FlutterViewController else {
+          continue
+        }
+        AudioBundlePlugin.register(
+          with: controller.registrar(forPlugin: "AudioBundlePlugin")!
+        )
+        return
+      }
+    }
+
+    NSLog("AppDelegate: Flutter registrar not ready for AudioBundlePlugin")
   }
 }

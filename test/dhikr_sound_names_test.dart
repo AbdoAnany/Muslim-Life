@@ -45,6 +45,18 @@ void main() {
       );
     });
 
+    test('AppAudio.rawBaseNameFor prefers fullFileName when set', () {
+      final z = ZekerModel.fromJson({
+        'zeker_id': '99',
+        'fullFileName': 'a1_1',
+        'zeker_repeat': 1,
+        'choose_repeat': '1',
+        'zeker_name': 'test',
+        'zeker_type_id': 2,
+      });
+      expect(AppAudio.rawBaseNameFor(z), 'a1_1');
+    });
+
     test('AppAudio.rawBaseNameFor matches ZekerModel.soundFileNamePath base', () {
       final z = ZekerModel.fromJson({
         'zeker_id': '1',
