@@ -5,8 +5,8 @@ import 'package:azkar/Features/model/prayer_times_model.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Features/scd.dart';
-import 'main.dart';
+import 'package:azkar/core/notifications/app_notification_service.dart';
+import 'package:azkar/core/widgets/home_widget_bridge.dart';
 
 class PrayerTimesStorage {
   static const String key = 'prayer_times_key';
@@ -46,12 +46,19 @@ class PrayerTimesStorage {
 
     final jsonString = json.encode(prayerTimes.toJson());
     await prefs.setString(key, jsonString);
+    await prefs.setString(
+      'prayer_day_key',
+      DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    );
+    await HomeWidgetBridge.syncNextReminderFromNotifications();
   }
 
   static Future<PrayerTimesModel?> getPrayerTimes() async {
     final prefs = await SharedPreferences.getInstance();
 
     String jsonString = prefs.getString(key) ?? '';
+    final todayKey = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final cachedDay = prefs.getString('prayer_day_key') ?? '';
 
     lastSync = await prefs.getString('lastSync') ?? '';
     if (lastSync.isEmpty) {
@@ -64,6 +71,9 @@ class PrayerTimesStorage {
         prefs.setString(key, '');
         jsonString = '';
       }
+    }
+    if (cachedDay != todayKey) {
+      jsonString = '';
     }
     if (jsonString.isNotEmpty) {
       final map = json.decode(jsonString);

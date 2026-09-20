@@ -13,7 +13,7 @@ class StaticAssets {
   static const String koran = 'assets/images/koran.png';
   static const String map = 'assets/images/map.png';
   static const String compasss = 'assets/images/compasss.png';
-  static const String qibla = 'assets/images/qibla.png';
+  static const String qibla = 'assets/images/mecca.png';
   static const String arabic = 'assets/images/arabic.png';
 
 

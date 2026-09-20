@@ -1,25 +1,20 @@
 import 'package:azkar/Features/bloc/Sibha_cubit/misbaha_cubit.dart';
-import 'package:azkar/Features/widget/title_appbar.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/assets.dart';
 import 'package:azkar/core/utils/size_config.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Misbaha extends StatelessWidget {
-  late MisbahaCubit VM;
+  const Misbaha({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocBuilder<MisbahaCubit, MisbahaState>(builder: (context, state) {
-        VM = MisbahaCubit.get(context);
-        return Scaffold(
-          appBar: TitleAppBar(
-            title: 'السبحة',
-          ),
-          backgroundColor: kWhite,
+    return BlocBuilder<MisbahaCubit, MisbahaState>(builder: (context, state) {
+        final vm = MisbahaCubit.get(context);
+        return AppScaffold(
+          title: 'السبحة',
           body: Stack(
             children: [
               Positioned(
@@ -53,11 +48,11 @@ class Misbaha extends StatelessWidget {
                         MaterialButton(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),height: 50,
                           onLongPress: () {
-                            _showLogOutDialog(context);
+                            _showGroupDialog(context, vm);
                           },
                           onPressed: () {},
                           child: Text(
-                            'عدد التسبيحات في المجموعة ${VM.GroubCounter}',
+                            'عدد التسبيحات في المجموعة ${vm.GroubCounter}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: SizeConfig.screenHeight * .05,
@@ -66,7 +61,7 @@ class Misbaha extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'لتغير العدد اضغط فوق  مطولا ',
+                          'الهدف: ${vm.targetCount} — لتغير المجموعة اضغط مطولاً',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.screenHeight * .02,
@@ -78,12 +73,12 @@ class Misbaha extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               vertical: SizeConfig.screenHeight * .1),
                           onLongPress: () {
-                            _showLogOutDialog(context);
+                            _showGroupDialog(context, vm);
                           },
                           onPressed: () {},
                           child: Center(
                             child: Text(
-                              '${VM.Groub} عدد المجموعات ',
+                              '${vm.Groub} عدد المجموعات ',
                               style: TextStyle(
                                   fontSize: SizeConfig.screenHeight * .035,
                                   color: Colors.black),
@@ -98,19 +93,19 @@ class Misbaha extends StatelessWidget {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),height: 50,
                               padding: EdgeInsets.only(top:  SizeConfig.screenHeight * .025),
                               onLongPress: () {
-                                VM.ButtonCounter = -1;
-                                VM.Counter = -1;
-                                VM.Clicked();
+                                vm.ButtonCounter = -1;
+                                vm.Counter = -1;
+                                vm.Clicked();
                               },
                               onPressed: () {
-                                VM.Clicked();
+                                vm.Clicked();
                               },
                               child: Center(
                                 child: Text(
-                                  '${VM.ButtonCounter}',
+                                  '${vm.ButtonCounter}',
                                   style: TextStyle(
                                       fontSize: SizeConfig.screenHeight * .06,
-                                      color: kMainColor,
+                                      color: AppTokens.brand,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -118,16 +113,16 @@ class Misbaha extends StatelessWidget {
                             MaterialButton(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),height: 50,
                               onLongPress: () {
-                                VM.ButtonCounter = -1;
-                                VM.Counter = -1;
-                                VM.Groub = 0;
-                                VM.Clicked();
+                                vm.ButtonCounter = -1;
+                                vm.Counter = -1;
+                                vm.Groub = 0;
+                                vm.Clicked();
                               },
                               onPressed: () {
-                                VM.ButtonCounter = -1;
-                                VM.Counter = -1;
-                                VM.Groub = 0;
-                                VM.Clicked();
+                                vm.ButtonCounter = -1;
+                                vm.Counter = -1;
+                                vm.Groub = 0;
+                                vm.Clicked();
                               },
                               child: Center(
                                 child: Text(
@@ -146,28 +141,28 @@ class Misbaha extends StatelessWidget {
             ],
           ),
         );
-      }),
-    );
+      });
   }
 
-  void _showLogOutDialog(context) {
+  void _showGroupDialog(BuildContext context, MisbahaCubit vm) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('عدد التسبحات في كل مجموعة'),
+            title: const Text('عدد التسبحات في كل مجموعة'),
             content: TextFormField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.black),
-                //  gapPadding: 10,
-              )),
-              initialValue: VM.GroubCounter.toString(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppTokens.radiusSm),
+                ),
+              ),
+              initialValue: vm.GroubCounter.toString(),
               keyboardType: TextInputType.number,
               onChanged: (e) {
-                VM.GroubCounter = int.parse(e);
-                VM.Changing();
+                final n = int.tryParse(e);
+                if (n == null) return;
+                vm.GroubCounter = n;
+                vm.Changing();
               },
             ),
           );

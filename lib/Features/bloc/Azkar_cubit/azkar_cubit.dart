@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:azkar/core/audio/app_audio.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/Features/model/azkarModel.dart';
@@ -32,11 +32,10 @@ class AzkarCubit extends Cubit<AzkarState> {
   TextEditingController azkarController = TextEditingController();
   bool SState = false, counterVisibility = false;
   late String textState;
-  static  final AssetsAudioPlayer player = AssetsAudioPlayer();
-
   int currentIndex = 0, currentPage = 0;
   var currentPosition;
-  final CarouselController carouselController = CarouselController();
+  final CarouselSliderController carouselController =
+      CarouselSliderController();
 
 
 
@@ -79,15 +78,9 @@ class AzkarCubit extends Cubit<AzkarState> {
 
 
 
- static onClick() async {
+  static Future<void> onClick() async {
     HapticFeedback.vibrate();
-    await  player.open(
-      Audio('assets/music/click.wav'),
-    );
-    await player.play();
-    //print('player');
-
-
+    await AppAudio.playClick();
   }
   Future<void> getAzkarModel() async {
   //  player.setAsset('azkar/music/click.wav');

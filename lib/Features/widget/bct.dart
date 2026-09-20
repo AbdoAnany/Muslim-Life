@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -73,7 +73,7 @@ class _BeautifulStepProgressIndicatorState
           totalSteps: widget.totalCount,
           currentStep: widget.controller.currentCount,
 
-          selectedColor: kMainColor,
+          selectedColor: AppTokens.brand,
           unselectedColor: Colors.grey.shade200,
           padding: math.pi / 80,
           width: 150,

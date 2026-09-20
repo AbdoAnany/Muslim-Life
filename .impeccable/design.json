@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-20T17:22:20.634117+00:00",
+  "title": "Design System: حياة المسلم (Muslim-Life)",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Courtyard Teal",
+        "canonical": "#0FAFAF"
+      },
+      "brand-dark": {
+        "role": "primary",
+        "displayName": "Deep Courtyard Teal",
+        "canonical": "#0A8A8A"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Courtyard Mist",
+        "canonical": "#FAFBFC"
+      },
+      "surface-variant": {
+        "role": "neutral",
+        "displayName": "Courtyard Stone",
+        "canonical": "#F3F4F6"
+      },
+      "on-surface": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1F2937"
+      },
+      "on-surface-muted": {
+        "role": "neutral",
+        "displayName": "Quiet Ink",
+        "canonical": "#6B7280"
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Error Clay",
+        "canonical": "#B91C1C"
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#FFFFFF"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Onboarding / about titles"
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "App bar titles"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headers, card titles"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Azkar / list / descriptions"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Meta and muted helpers"
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-whisper",
+        "value": "elevation 1 (Flutter)",
+        "purpose": "Soft card lift on mist surface"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "default Flutter phone"
+      },
+      {
+        "name": "tablet",
+        "value": "widen padding; keep RTL grid"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Teal fill CTA for primary worship actions.",
+      "html": "<button class=\"ds-btn-primary\">تشغيل الذكر</button>",
+      "css": ".ds-btn-primary{background:#0FAFAF;color:#fff;padding:16px 24px;border:none;border-radius:12px;font-weight:600;font-size:16px}.ds-btn-primary:hover{background:#0A8A8A}"
+    },
+    {
+      "name": "App Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White courtyard card for tiles and content blocks.",
+      "html": "<div class=\"ds-card\">محتوى</div>",
+      "css": ".ds-card{background:#fff;border-radius:12px;padding:8px;box-shadow:0 1px 2px rgba(0,0,0,.06)}"
+    },
+    {
+      "name": "App Bar",
+      "kind": "nav",
+      "refersTo": "app-bar",
+      "description": "Teal bar with centered white Arabic title.",
+      "html": "<header class=\"ds-appbar\">الأذكار</header>",
+      "css": ".ds-appbar{background:#0FAFAF;color:#fff;text-align:center;padding:14px 16px;font-weight:600;font-size:18px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Mosque Courtyard",
+    "overview": "Calm courtyard surfaces, content-first Mushaf reading accents, light Teal Minaret chrome. Operate-mode Arabic RTL Flutter for Tasbeeh switchers.",
+    "keyCharacteristics": [
+      "Soft gray-white surfaces + white cards",
+      "Single teal accent voice",
+      "ArbFONTS + 1.5 body leading",
+      "Elevation ~1",
+      "Shared DLS widgets"
+    ],
+    "rules": [
+      {
+        "name": "The One Teal Rule",
+        "body": "Teal is the only chromatic accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Courtyard Field Rule",
+        "body": "≥70% surface/white; teal is sparse.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Breath Rule",
+        "body": "Arabic body ~1.5 line-height.",
+        "section": "typography"
+      },
+      {
+        "name": "The Soft Lift Rule",
+        "body": "Depth from surface contrast first.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Path Rule",
+        "body": "One primary worship path per screen.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "Do use AppTokens + DLS widgets",
+      "Do keep Arabic RTL and ArbFONTS",
+      "Do snackbar audio/location failures",
+      "Do keep teal rare; content breathes"
+    ],
+    "donts": [
+      "Don't paste Tasbeeh multi-color chrome",
+      "Don't invent a second accent",
+      "Don't hard-code drifting teals",
+      "Don't fail audio silently"
+    ]
+  }
+}

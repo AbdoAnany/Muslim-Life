@@ -1,25 +1,38 @@
-
-import 'package:azkar/core/utils/size_config.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:flutter/material.dart';
 
 class CustomTitle extends StatelessWidget {
-  final String? title;
+  const CustomTitle({super.key, this.title});
 
-  const CustomTitle({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
+    return Text(
+      title ?? '',
+      style: Theme.of(context).appBarTheme.titleTextStyle ??
+          const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+    );
+  }
+}
 
+/// Large section title on light surfaces (not app bars).
+class ScreenTitle extends StatelessWidget {
+  const ScreenTitle({super.key, required this.title});
 
-    return
-      Padding(
-        padding:  EdgeInsets.only(top:  SizeConfig.screenHeight*.01),
-        child: Text(
-          title!,
-          style: TextStyle(color: Colors.grey.shade700,fontWeight:FontWeight.bold,fontSize:  SizeConfig.screenWidth * 0.09,),
+  final String title;
 
-        ),
-      )
-    ;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: AppTokens.brand,
+            fontWeight: FontWeight.bold,
+          ),
+    );
   }
 }

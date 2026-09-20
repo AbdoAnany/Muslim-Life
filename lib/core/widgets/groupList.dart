@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:azkar/Features/model/ayah.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -376,7 +376,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
                           child:  Text(
                           'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيم',
                           textDirection: TextDirection.rtl,textAlign: TextAlign.center,softWrap: true,overflow: TextOverflow.fade,
-                          style: TextStyle(fontSize: widget.fontSize!+20,fontWeight: FontWeight.bold,fontFamily: 'noor',color:  kMainColor),
+                          style: TextStyle(fontSize: widget.fontSize!+20,fontWeight: FontWeight.bold,fontFamily: 'noor',color:  AppTokens.brand),
                         ),)
                       ),
                     );
@@ -399,7 +399,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
                 child:     Text(
                          'صٍـدَّقَْ اٌلِـلِـهٌ اٌلِـعٍَظَِيٌـمِ',
                           textDirection: TextDirection.rtl,textAlign: TextAlign.center,softWrap: true,overflow: TextOverflow.fade,
-                          style: TextStyle(fontSize: widget.fontSize!+4.0,color: kMainColor),
+                          style: TextStyle(fontSize: widget.fontSize!+4.0,color: AppTokens.brand),
                         ),)
                       ],
                     );

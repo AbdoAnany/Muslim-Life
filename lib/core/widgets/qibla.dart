@@ -1,8 +1,8 @@
 import 'dart:math' show pi;
 
-import 'package:azkar/Features/widget/title_appbar.dart';
-import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/utils/assets.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
+import 'package:azkar/core/widgets/dls/empty_state.dart';
 import 'package:azkar/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
@@ -42,25 +42,16 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar:               TitleAppBar(title: 'أتجاه القبلة',),
-
-        backgroundColor: kWhite,
+    return AppScaffold(
+        title: 'اتجاه القبلة',
         body: !status.isGranted
-            ? Center(
-                child: InkWell(
-                    onTap: () async {
-                      status = await Permission.location.request();
-                      setState(() {});
-                      //  LocationPermission a =await  FlutterQiblah.requestPermissions();
-
-                      // setState(() {
-                      //
-                      // });
-                    },
-                    child: Text('لا يمكن وصول الي بيانات الموقع الجغرافي')),
+            ? EmptyState(
+                message: 'لا يمكن الوصول إلى الموقع الجغرافي',
+                actionLabel: 'منح الإذن',
+                onAction: () async {
+                  status = await Permission.location.request();
+                  setState(() {});
+                },
               )
             : StreamBuilder<QiblahDirection>(
                 stream: FlutterQiblah.qiblahStream,
@@ -71,16 +62,14 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
 
                   if (snapshot.hasError) {
                     // Handle the error here
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
+                    return EmptyState(
+                      message: 'تعذر قراءة اتجاه القبلة',
+                      icon: Icons.error_outline,
                     );
                   }
 
                   if (!snapshot.hasData) {
-                    // Handle the case when there is no data available
-                    return Center(
-                      child: Text('No data available'),
-                    );
+                    return const EmptyState(message: 'لا توجد بيانات');
                   }
 
                   final qiblahDirection = snapshot.data!;
@@ -116,7 +105,6 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
                   );
                 },
               ),
-      ),
     );
   }
 }
