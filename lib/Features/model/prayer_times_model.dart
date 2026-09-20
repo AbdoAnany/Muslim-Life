@@ -218,7 +218,8 @@ class PrayerTimeModel {
 
 
     String? englishName = key;
-    String? time = val.toString().replaceAll('(EET)', ''.trim());//1
+    // Aladhan returns e.g. "05:10 (EEST)" / "05:10 (EET)" — strip any (TZ).
+    String time = val.toString().replaceAll(RegExp(r'\s*\([^)]*\)\s*'), '').trim();
 
     // Map English names to Arabic names (you can extend this mapping)
     Map<String, String> arabicNameMap = {
@@ -247,7 +248,7 @@ class PrayerTimeModel {
 
 
     String? englishName = key;
-    String? time = val['time'].toString().replaceAll('(EET)', '').trim();
+    String? time = val['time'].toString().replaceAll(RegExp(r'\s*\([^)]*\)\s*'), '').trim();
 
     // Map English names to Arabic names (you can extend this mapping)
     Map<String, String> arabicNameMap = {

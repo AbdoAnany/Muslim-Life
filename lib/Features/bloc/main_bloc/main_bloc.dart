@@ -81,32 +81,33 @@ class MainBloc extends Cubit<MainState> {
 
     emit(MainLoading());
   }
-  static DateTime timeToDateTime({String? time='',String? date})  {
+  /// Aladhan times look like "05:10 (EEST)" — keep HH:mm only.
+  static String sanitizePrayerTime(String? time) {
+    if (time == null || time.isEmpty) return '00:00';
+    return time.replaceAll(RegExp(r'\s*\([^)]*\)\s*'), '').trim().split(' ').first;
+  }
+
+  static DateTime timeToDateTime({String? time = '', String? date}) {
     final customFormat = DateFormat("dd-MM-yyyy HH:mm");
-    DateTime now=DateTime.now();
-    date=date??'${now.day}-${now.month}-${now.year}';
-    String originalDateString = "$date ${time}";
-    DateTime originalDate =  customFormat.parse(originalDateString);
-   return originalDate ;
+    final now = DateTime.now();
+    date = date ?? '${now.day}-${now.month}-${now.year}';
+    final clean = sanitizePrayerTime(time);
+    return customFormat.parse("$date $clean");
   }
   static String? convertTo12HourFormat(String time, showPeriod) {
-    // Parse the time string
-    List<String> parts = time.split(':');
-    int hour = int.parse(parts[0]);
-    int minute = int.parse(parts[1]);
+    final clean = sanitizePrayerTime(time);
+    final parts = clean.split(':');
+    if (parts.length < 2) return clean;
+    int hour = int.tryParse(parts[0]) ?? 0;
+    int minute = int.tryParse(parts[1].replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
 
-    // Determine the period (AM/PM)
-    String period = (hour >= 12) ? 'PM' : 'AM';
-
-    // Convert to 12-hour format
+    final period = (hour >= 12) ? 'PM' : 'AM';
     hour = (hour > 12) ? hour - 12 : hour;
     hour = (hour == 0) ? 12 : hour;
 
-    // Format the time in 12-hour format
-    String formattedTime =
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}' +
-            '${showPeriod ? period : ''}';
-
+    final formattedTime =
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}'
+        '${showPeriod ? period : ''}';
     return formattedTime;
   }
 
