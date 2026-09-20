@@ -27,7 +27,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen> {
     final quranRaw = await rootBundle.loadString('assets/data/surahs.json');
     final quranJson = json.decode(quranRaw) as Map<String, dynamic>;
     final surahList = (quranJson['data']?['surahs'] as List?) ?? [];
-    final tafsirRaw = await rootBundle.loadString('assets/data/tafsir_sample.json');
+    final tafsirRaw = await rootBundle.loadString('assets/data/tafsir_ar.json');
     final tafsirJson = json.decode(tafsirRaw) as Map<String, dynamic>;
     setState(() {
       _surahs = surahList
