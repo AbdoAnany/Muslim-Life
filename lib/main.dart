@@ -12,6 +12,7 @@ import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/shared/themes.dart';
 import 'package:azkar/core/storage/cash_local.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
+import 'package:azkar/features/content/content_favorites_store.dart';
 import 'package:azkar/helper/db_sqlite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +43,7 @@ Future<void> main() async {
   );
   await HomeWidgetBridge.init();
   await BookMarkAppCubit.inti();
+  await ContentFavoritesStore.instance.init();
   await Hive.initFlutter();
   await Hive.openBox('app');
   await DbSQLiteProvider.db.database;

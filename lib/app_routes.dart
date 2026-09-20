@@ -7,6 +7,8 @@ import 'package:azkar/features/content/content_detail_screen.dart';
 import 'package:azkar/features/content/content_list_screen.dart';
 import 'package:azkar/features/dhikr_audio/dhikr_azkar_screen.dart';
 import 'package:azkar/features/dhikr_audio/dhikr_schedule_screen.dart';
+import 'package:azkar/features/about/about_screen.dart';
+import 'package:azkar/features/content/content_favorites_screen.dart';
 import 'package:azkar/features/onboarding/onboarding_screen.dart';
 import 'package:azkar/features/prayer/prayer_times_screen.dart';
 import 'package:azkar/features/quran_audio/quran_reciters_screen.dart';
@@ -96,6 +98,18 @@ class AppRoutes {
               assetPath: 'assets/convertdate.html',
             ),
           ),
+        );
+        break;
+      case AppModel.about:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AboutScreen()),
+        );
+        break;
+      case AppModel.bookmarks:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ContentFavoritesScreen()),
         );
         break;
       default:

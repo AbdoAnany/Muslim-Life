@@ -109,6 +109,20 @@ class AppCubit extends Cubit<AppStates> {
       subtype: ApiSubType.Open_url,
       appModel: AppModel.convertDate,
     ),
+    ApiModel.home(
+      itemId: '14',
+      title: 'المفضلة',
+      photo: 'pray.png',
+      subtype: ApiSubType.Open_view,
+      appModel: AppModel.bookmarks,
+    ),
+    ApiModel.home(
+      itemId: '15',
+      title: 'عن التطبيق',
+      photo: 'map.png',
+      subtype: ApiSubType.Open_about,
+      appModel: AppModel.about,
+    ),
   ];
 
   void getHomeData() {

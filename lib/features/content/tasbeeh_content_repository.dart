@@ -29,9 +29,11 @@ class TasbeehContentRepository {
       try {
         final rows = await db.query(table, orderBy: 'itemId ASC');
         if (rows.isNotEmpty) {
-          return rows
-              .map((r) => ApiModel.fromPortableJson(Map<String, dynamic>.from(r)))
-              .toList();
+          return rows.map((r) {
+            final m = ApiModel.fromPortableJson(Map<String, dynamic>.from(r));
+            m.appModel = model;
+            return m;
+          }).toList();
         }
       } catch (_) {
         // Fall through to JSON.
@@ -46,8 +48,18 @@ class TasbeehContentRepository {
     final key = _jsonKeyByModel[model];
     if (key == null) return [];
     final list = map[key] as List? ?? [];
-    return list
-        .map((e) => ApiModel.fromPortableJson(Map<String, dynamic>.from(e as Map)))
-        .toList();
+    return list.map((e) {
+      final m = ApiModel.fromPortableJson(Map<String, dynamic>.from(e as Map));
+      m.appModel = model;
+      return m;
+    }).toList();
+  }
+
+  Future<ApiModel?> findByItemId(AppModel model, String itemId) async {
+    final items = await load(model);
+    for (final item in items) {
+      if (item.itemId == itemId) return item;
+    }
+    return null;
   }
 }

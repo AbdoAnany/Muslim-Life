@@ -6,6 +6,7 @@ import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/shared/styles.dart';
 import 'package:azkar/core/utils/assets.dart';
+import 'package:azkar/core/updates/app_update_checker.dart';
 import 'package:azkar/features/prayer/prayer_times_screen.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/foundation.dart';
@@ -14,8 +15,21 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hijri/hijri_calendar.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppUpdateChecker.checkIfNeeded(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
