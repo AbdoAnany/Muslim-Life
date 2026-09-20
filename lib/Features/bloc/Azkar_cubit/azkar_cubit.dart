@@ -82,10 +82,13 @@ class AzkarCubit extends Cubit<AzkarState> {
 
  static onClick() async {
     HapticFeedback.vibrate();
+    try {
     await  player.open(
       Audio('assets/music/click.wav'),
     );
     await player.play();
+    } catch (_) {}
+
     //print('player');
 
 
