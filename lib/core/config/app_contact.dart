@@ -5,17 +5,17 @@ class AppContact {
   static const String appDescription =
       'تطبيق شامل للأذكار، القرآن، مواقيت الصلاة، القبلة، والمحتوى الإسلامي — offline-first where possible.';
 
-  /// TODO: set your support email (e.g. support@example.com)
+  /// Optional: set support email when ready (leave empty to hide)
   static const String supportEmail = '';
 
-  /// TODO: E.164 phone for tel: links (e.g. +201234567890)
+  /// Optional: E.164 phone for tel: links (leave empty to hide)
   static const String phoneE164 = '';
 
-  /// TODO: E.164 for WhatsApp (digits only after +)
+  /// Optional: E.164 for WhatsApp (leave empty to hide)
   static const String whatsAppE164 = '';
 
   /// Optional social / website URLs
-  static const String websiteUrl = '';
+  static const String websiteUrl = 'https://www.abdoanany.com/';
   static const String facebookUrl = '';
   static const String twitterUrl = '';
 }
