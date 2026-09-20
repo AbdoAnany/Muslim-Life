@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/widgets/home_widget_bridge.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
 import 'package:azkar/models/tasbeeh/build_azkar.dart';
 import 'package:azkar/models/tasbeeh/build_notifications.dart';
@@ -51,6 +52,7 @@ class _DhikrAzkarScreenState extends State<DhikrAzkarScreen> {
     BuildAzkar.saveZekerListFor(_selected, ZekerListFor.selected);
     BuildAzkar.play();
     await BuildNotifications().build(_builder, context);
+    await HomeWidgetBridge.syncNextReminderFromNotifications();
     if (!mounted) return;
     setState(() => _scheduling = false);
     AppRoutes.openAction(context, ApiModel.home(

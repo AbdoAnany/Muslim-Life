@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:azkar/core/notifications/app_notification_service.dart';
+import 'package:azkar/core/widgets/home_widget_bridge.dart';
 
 class PrayerTimesStorage {
   static const String key = 'prayer_times_key';
@@ -49,6 +50,7 @@ class PrayerTimesStorage {
       'prayer_day_key',
       DateFormat('yyyy-MM-dd').format(DateTime.now()),
     );
+    await HomeWidgetBridge.syncNextReminderFromNotifications();
   }
 
   static Future<PrayerTimesModel?> getPrayerTimes() async {

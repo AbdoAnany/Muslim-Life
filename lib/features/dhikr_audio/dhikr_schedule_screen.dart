@@ -1,4 +1,5 @@
 import 'package:azkar/core/notifications/app_notification_service.dart';
+import 'package:azkar/core/widgets/home_widget_bridge.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/models/tasbeeh/build_azkar.dart';
 import 'package:azkar/models/tasbeeh/zeker_model.dart';
@@ -38,6 +39,7 @@ class _DhikrScheduleScreenState extends State<DhikrScheduleScreen> {
       _pending = models;
       _loading = false;
     });
+    await HomeWidgetBridge.syncNextReminderFromNotifications();
   }
 
   Future<void> _stop() async {
