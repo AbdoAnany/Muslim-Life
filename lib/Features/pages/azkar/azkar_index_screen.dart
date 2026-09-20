@@ -101,7 +101,7 @@ class AzkarIndexScreen extends StatelessWidget {
                           )),
                   ],
                 ),
-              )),
+              ),
         );
       },
     );
