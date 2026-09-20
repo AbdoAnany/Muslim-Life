@@ -29,10 +29,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final bookmarkCubit = BookmarkCubit.get(context);
     final mainBloc = MainBloc.get(context);
 
-    azkarCubit.getAzkarModel();
-    await chapterCubit.fetch();
-    await bookmarkCubit.fetch();
-    await mainBloc.getPrayTime();
+    try {
+      azkarCubit.getAzkarModel();
+      await chapterCubit.fetch().timeout(const Duration(seconds: 15));
+      await bookmarkCubit.fetch().timeout(const Duration(seconds: 10));
+      await mainBloc.getPrayTime().timeout(const Duration(seconds: 20));
+    } catch (_) {
+      // Continue to UI even if a bootstrap step fails.
+    }
 
     if (!mounted) return;
     final onboardingDone = CashLocal.getBool('onboarding_complete');

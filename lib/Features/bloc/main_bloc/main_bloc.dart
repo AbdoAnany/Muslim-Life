@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class MainBloc extends Cubit<MainState> {
   MainBloc() : super(MainInitState());
@@ -113,51 +112,97 @@ class MainBloc extends Cubit<MainState> {
 
   Future<void> getPrayTime({bool forceRefresh = false}) async {
     updateTextState();
-    DateTime date = DateTime.now();
-    PrayerTimesModel? pray =
-        forceRefresh ? null : await PrayerTimesStorage.getPrayerTimes();
-    LocationPermission locationPermission = await Geolocator.checkPermission();
-
+    final date = DateTime.now();
+    // Cairo defaults — used when permission/network is slow or missing.
     Position log = Position(
-        longitude: 31.4722447,
-        latitude: 30.2398005,
-        timestamp: date,
-        accuracy: 0.0,
-        altitude: 0.0,
-        altitudeAccuracy: 0.0,
-        heading: 0.0,
-        headingAccuracy: 0.0,
-        speed: 0.0,
-        speedAccuracy: 0.0);
+      longitude: 31.2357,
+      latitude: 30.0444,
+      timestamp: date,
+      accuracy: 0.0,
+      altitude: 0.0,
+      altitudeAccuracy: 0.0,
+      heading: 0.0,
+      headingAccuracy: 0.0,
+      speed: 0.0,
+      speedAccuracy: 0.0,
+    );
 
-    var parser1;
-    if (pray == null) {
-      if (locationPermission.name == 'denied' || locationPermission.name == 'deniedForever') {
-        //print('>>>>>>>>>>>>     GET DATE FROM SERVER  WITHOUT PERMISSION');
-        updateTextState(message: "لايمكن  حصول علي الموقع الجغرافي");
-        await Geolocator.requestPermission();
-      } else {
-         log = await Geolocator.getCurrentPosition();
+    try {
+      PrayerTimesModel? pray =
+          forceRefresh ? null : await PrayerTimesStorage.getPrayerTimes();
+
+      if (pray == null) {
+        try {
+          final permission = await Geolocator.checkPermission()
+              .timeout(const Duration(seconds: 2));
+          if (permission == LocationPermission.denied) {
+            updateTextState(message: "طلب صلاحية الموقع");
+            await Geolocator.requestPermission()
+                .timeout(const Duration(seconds: 3));
+          }
+          final current = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.low,
+            timeLimit: const Duration(seconds: 4),
+          ).timeout(const Duration(seconds: 5));
+          log = current;
+        } catch (_) {
+          // Keep Cairo defaults — never block splash on location.
+          updateTextState(message: "استخدام موقع افتراضي");
+        }
+
+        final url =
+            'https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}';
+        final parser1 = await Dio().get(
+          url,
+          options: Options(receiveTimeout: const Duration(seconds: 8), sendTimeout: const Duration(seconds: 8)),
+        ).timeout(const Duration(seconds: 10));
+        pray = PrayerTimesModel.fromJson(parser1.data);
+        await PrayerTimesStorage.savePrayerTimes(pray);
       }
-      parser1 = await Dio().get('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
-      pray = PrayerTimesModel.fromJson(parser1.data);
-      PrayerTimesStorage.savePrayerTimes(pray);
-    } else {
-      //print('>>>>>>>>>>>>     GET DATE FROM LOCAL ');
+
+      updateTextState(message: "تحميل بيانات الصلاة لليوم");
+      prayList = pray.data ?? [];
+      if (prayList.isEmpty) {
+        emit(MainSuccess());
+        return;
+      }
+
+      final today = DateFormat("dd-MM-y").format(DateTime.now());
+      timings = prayList
+          .firstWhere(
+            (element) => element.date?.gregorian?.date == today,
+            orElse: () => prayList.first,
+          )
+          .timings!;
+      timingsList = timingsListMethod(timings);
+
+      currentPray = timingsList.lastWhere(
+        (element) =>
+            element!.englishName!.length < 7 &&
+            timeToDateTime(time: element.time).isBefore(DateTime.now()),
+        orElse: () => PrayerTimeModel(
+          time: '',
+          arabicName: '',
+          englishName: '____________________________',
+        ),
+      );
+      nextPray = timingsList.firstWhere(
+        (element) =>
+            element!.englishName!.length < 7 &&
+            timeToDateTime(time: element.time).isAfter(DateTime.now()),
+        orElse: () => PrayerTimeModel(
+          time: '',
+          arabicName: '',
+          englishName: '____________________________',
+        ),
+      );
+
+      emit(MainSuccess());
+    } catch (e) {
+      // Never leave splash hanging.
+      updateTextState(message: "تعذر تحميل المواقيت");
+      emit(MainSuccess());
     }
-   //PrayerTimesStorage.savePrayerTimes(pray) ;
-  //   //print('https://api.aladhan.com/v1/calendar?latitude=${log.latitude}&longitude=${log.longitude}&method=3&day=${date.day}&month=${date.month}&year=${date.year}');
-
-    updateTextState(message: "تحميل بيانات الصلاة لليوم");
-    prayList = pray.data!;
-
-    timings = prayList.firstWhere((element) => element.date!.gregorian!.date == DateFormat("dd-MM-y").format(DateTime.now()).toString()).timings!;
-    timingsList = timingsListMethod(timings);
-//print(timingsList.length);
-
-    currentPray =timingsList.lastWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isBefore(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
-    nextPray =timingsList.firstWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
-
-    emit(MainSuccess());
   }
 }
+
