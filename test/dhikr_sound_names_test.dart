@@ -5,18 +5,26 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DhikrSoundNames', () {
-    test('single repeat uses a{id}', () {
+    test('single repeat uses zero-padded a{id}', () {
       expect(
         DhikrSoundNames.rawBaseName(
           zekerId: '5',
           chooseRepeat: '1',
           zekerRepeat: 1,
         ),
-        'a5',
+        'a005',
+      );
+      expect(
+        DhikrSoundNames.rawBaseName(
+          zekerId: '1',
+          chooseRepeat: '',
+          zekerRepeat: 1,
+        ),
+        'a001',
       );
     });
 
-    test('multi repeat uses suffix from choose_repeat', () {
+    test('multi repeat uses unpadded suffix from choose_repeat', () {
       expect(
         DhikrSoundNames.rawBaseName(
           zekerId: '1',
@@ -38,6 +46,15 @@ void main() {
       );
     });
 
+    test('candidates include padded and unpadded forms', () {
+      final c = DhikrSoundNames.candidateBaseNames(
+        zekerId: '1',
+        chooseRepeat: '',
+        zekerRepeat: 1,
+      );
+      expect(c, containsAll(['a001', 'a1']));
+    });
+
     test('android URI uses applicationId package', () {
       expect(
         DhikrSoundNames.androidResourceUri('a1_1'),
@@ -57,7 +74,18 @@ void main() {
       expect(AppAudio.rawBaseNameFor(z), 'a1_1');
     });
 
-    test('AppAudio.rawBaseNameFor matches ZekerModel.soundFileNamePath base', () {
+    test('AppAudio.rawBaseNameFor pads base clip for id 1', () {
+      final z = ZekerModel.fromJson({
+        'zeker_id': '1',
+        'zeker_repeat': 1,
+        'choose_repeat': '',
+        'zeker_name': 'سبحان الله',
+        'zeker_type_id': 2,
+      });
+      expect(AppAudio.rawBaseNameFor(z), 'a001');
+    });
+
+    test('AppAudio.rawBaseNameFor multi-repeat uses a1_1', () {
       final z = ZekerModel.fromJson({
         'zeker_id': '1',
         'zeker_repeat': 3,

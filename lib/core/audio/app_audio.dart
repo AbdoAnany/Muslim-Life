@@ -121,42 +121,61 @@ class AppAudio {
   ) async {
     if (kIsWeb) return null;
 
-    final tag = MediaItem(
-      id: 'dhikr_$baseName',
-      title: zeker.zeker_name,
-      artist: 'أذكار',
-      album: 'حياة المسلم',
+    final candidates = DhikrSoundNames.candidateBaseNames(
+      zekerId: zeker.zeker_id,
+      chooseRepeat: zeker.choose_repeat,
+      zekerRepeat: zeker.zeker_repeat,
     );
+    // Prefer explicit fullFileName / computed baseName first
+    final ordered = <String>[
+      if (baseName.isNotEmpty) baseName,
+      ...candidates,
+    ];
+    final seen = <String>{};
+    final names = <String>[];
+    for (final n in ordered) {
+      if (seen.add(n)) names.add(n);
+    }
 
     if (Platform.isAndroid) {
-      final exists = await BundleAudioChannel.androidRawExists(baseName);
-      if (!exists) {
-        if (kDebugMode) {
-          debugPrint(
-            'AppAudio: android raw missing for $baseName — skipping URI load',
-          );
-        }
-        return null;
+      for (final name in names) {
+        final exists = await BundleAudioChannel.androidRawExists(name);
+        if (!exists) continue;
+        debugPrint('AppAudio: android raw hit: $name');
+        return AudioSource.uri(
+          Uri.parse(DhikrSoundNames.androidResourceUri(name)),
+          tag: MediaItem(
+            id: 'dhikr_$name',
+            title: zeker.zeker_name,
+            artist: 'أذكار',
+            album: 'حياة المسلم',
+          ),
+        );
       }
-      return AudioSource.uri(
-        Uri.parse(DhikrSoundNames.androidResourceUri(baseName)),
-        tag: tag,
-      );
+      debugPrint('AppAudio: android raw miss for $names');
+      return null;
     }
 
     if (Platform.isIOS) {
-      final filePath = await BundleAudioChannel.bundleResourcePath(baseName);
-      if (filePath == null) return null;
-
-      final bundleFile = File(filePath);
-      if (!await bundleFile.exists()) {
-        debugPrint('AppAudio: iOS bundle mp3 missing on disk: $filePath');
-        return null;
+      for (final name in names) {
+        final filePath = await BundleAudioChannel.bundleResourcePath(name);
+        if (filePath == null) continue;
+        final bundleFile = File(filePath);
+        if (!await bundleFile.exists()) continue;
+        final playPath = await _iosPlayablePath(bundleFile, name);
+        debugPrint('AppAudio: iOS dhikr path resolved ($name): $playPath');
+        return AudioSource.uri(
+          Uri.file(playPath),
+          tag: MediaItem(
+            id: 'dhikr_$name',
+            title: zeker.zeker_name,
+            artist: 'أذكار',
+            album: 'حياة المسلم',
+          ),
+        );
       }
-
-      final playPath = await _iosPlayablePath(bundleFile, baseName);
-      debugPrint('AppAudio: iOS dhikr path resolved: $playPath');
-      return AudioSource.uri(Uri.file(playPath), tag: tag);
+      debugPrint('AppAudio: iOS bundle miss for $names');
+      return null;
     }
 
     return null;
