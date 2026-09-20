@@ -69,6 +69,16 @@ class AboutScreen extends StatelessWidget {
               style: const TextStyle(height: 1.6),
             ),
             const SizedBox(height: AppTokens.spaceLg),
+            SectionHeader('الموقع الرسمي'),
+            AppCard(
+              child: _actionTile(
+                icon: Icons.language,
+                title: AppContact.websiteDisplayHost,
+                subtitle: AppContact.websiteUrl,
+                onTap: () => _launch(AppContact.websiteUrl),
+              ),
+            ),
+            const SizedBox(height: AppTokens.spaceMd),
             if (hasContact) ...[
               SectionHeader('اتصل بنا'),
               AppCard(
@@ -123,14 +133,6 @@ class AboutScreen extends StatelessWidget {
                     title: 'قيّم التطبيق',
                     onTap: _rateApp,
                   ),
-                  if (AppContact.websiteUrl.isNotEmpty) ...[
-                    const Divider(height: 1),
-                    _actionTile(
-                      icon: Icons.language,
-                      title: 'الموقع',
-                      onTap: () => _launch(AppContact.websiteUrl),
-                    ),
-                  ],
                   if (AppContact.facebookUrl.isNotEmpty) ...[
                     const Divider(height: 1),
                     _actionTile(

@@ -1,4 +1,6 @@
 import 'package:azkar/app_routes.dart';
+import 'package:azkar/core/config/app_contact.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/storage/cash_local.dart';
 import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
@@ -51,9 +53,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPageChanged: (p) => setState(() => _page = p),
                   children: [
                     _buildPage(
-                      title: 'مرحباً في حياة المسلم',
-                      body: 'تطبيق شامل للأذكار، القرآن، مواقيت الصلاة، والقبلة.',
-                      child: const Icon(Icons.mosque, size: 80),
+                      title: 'مرحباً في ${AppContact.appName}',
+                      body: AppContact.appDescription,
+                      child: Icon(Icons.mosque, size: 80, color: AppTokens.brand),
                     ),
                     _buildPage(
                       title: 'اللغة والمظهر',

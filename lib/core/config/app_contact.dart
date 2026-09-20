@@ -2,8 +2,11 @@
 class AppContact {
   static const String appName = 'حياة المسلم';
 
+  /// Product truth: cleaner home for Tasbeeh switchers — same familiar features.
   static const String appDescription =
-      'تطبيق شامل للأذكار، القرآن، مواقيت الصلاة، القبلة، والمحتوى الإسلامي — offline-first where possible.';
+      'لمن ينتقل من تطبيق التسبيح: الأذكار الصوتية، القرآن، مواقيت الصلاة، القبلة، حصن المسلم، والسبحة — في تجربة أوضح وموحّدة.';
+
+  static const String websiteDisplayHost = 'www.abdoanany.com';
 
   /// Optional: set support email when ready (leave empty to hide)
   static const String supportEmail = '';
@@ -14,8 +17,9 @@ class AppContact {
   /// Optional: E.164 for WhatsApp (leave empty to hide)
   static const String whatsAppE164 = '';
 
-  /// Optional social / website URLs
+  /// Official site only (About / contact).
   static const String websiteUrl = 'https://www.abdoanany.com/';
+
   static const String facebookUrl = '';
   static const String twitterUrl = '';
 }

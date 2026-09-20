@@ -7,6 +7,7 @@ import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/bloc/chapter/cubit.dart';
 import 'package:azkar/Features/pages/splash_screen.dart';
+import 'package:azkar/core/config/app_contact.dart';
 import 'package:azkar/core/notifications/app_notification_service.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/shared/themes.dart';
@@ -77,7 +78,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: theme,
             themeMode: ThemeMode.light,
-            title: 'حياة المسلم',
+            locale: const Locale('ar'),
+            supportedLocales: const [
+              Locale('ar'),
+              Locale('en'),
+            ],
+            title: AppContact.appName,
             home: const SplashScreen(),
           );
         },
