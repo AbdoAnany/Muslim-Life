@@ -33,6 +33,22 @@ class AppNotificationService {
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
 
+    // Defer OS permission prompts — requesting here blocks first launch UI.
+    // Call requestPermissions() later from onboarding / settings.
+
+  }
+
+  Future<void> _configureLocalTimeZone() async {
+    if (kIsWeb || Platform.isLinux) {
+      return;
+    }
+    tz.initializeTimeZones();
+    final timeZoneName = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
+  }
+
+
+  Future<void> requestPermissions() async {
     if (Platform.isIOS) {
       await _plugin
           .resolvePlatformSpecificImplementation<
@@ -44,15 +60,6 @@ class AppNotificationService {
               AndroidFlutterLocalNotificationsPlugin>()
           ?.requestNotificationsPermission();
     }
-  }
-
-  Future<void> _configureLocalTimeZone() async {
-    if (kIsWeb || Platform.isLinux) {
-      return;
-    }
-    tz.initializeTimeZones();
-    final timeZoneName = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
   Future<void> schedulePrayer({
