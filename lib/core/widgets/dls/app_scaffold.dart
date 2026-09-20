@@ -29,6 +29,9 @@ class AppScaffold extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
           actions: actions,
+          // Avoid MaterialLocalizations back-button tooltip crash if delegates lag.
+          automaticallyImplyLeading: true,
+          excludeHeaderSemantics: true,
         ),
         body: body,
         bottomNavigationBar: bottomNavigationBar,
