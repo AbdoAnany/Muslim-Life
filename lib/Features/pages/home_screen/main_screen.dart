@@ -103,16 +103,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFFFDFDFD),
-                    Color(0xFFF8F9FA),
-                    Color(0xFFF3F4F6),
-                    Color(0xFFECF0F1),
-                    Color(0xFFE8EAED),
+                    AppTokens.courtyard,
+                    AppTokens.courtyardMuted,
                   ],
-                  stops: [0.0, 0.25, 0.5, 0.75, 1.0],
                 ),
               ),
               child: SafeArea(
@@ -558,7 +554,7 @@ class _BasePatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF4DB6AC).withOpacity( 0.15)
+      ..color = AppTokens.courtyardMuted.withOpacity(0.35)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
@@ -578,7 +574,7 @@ class _BasePatternPainter extends CustomPainter {
       );
     }
 
-    paint.color = const Color(0xFF26A69A).withOpacity( 0.12);
+    paint.color = AppTokens.mushafBorder.withOpacity(0.25);
     _drawIslamicGeometry(canvas, size, paint);
   }
 
@@ -616,14 +612,14 @@ class _EnhancedBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final glowPaint1 = Paint()
-      ..color = const Color(0xFF4DB6AC)
-          .withOpacity( 0.12 + 0.08 * pulseAnimation)
+      ..color = AppTokens.brand
+          .withOpacity(0.04 + 0.03 * pulseAnimation)
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 15);
 
     final glowPaint2 = Paint()
-      ..color = const Color(0xFF26A69A)
-          .withOpacity( 0.10 + 0.06 * pulseAnimation)
+      ..color = AppTokens.brandDark
+          .withOpacity(0.03 + 0.02 * pulseAnimation)
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
 
@@ -640,7 +636,7 @@ class _EnhancedBackgroundPainter extends CustomPainter {
     canvas.drawCircle(orb2, 70 + 15 * pulseAnimation, glowPaint2);
 
     final particlePaint = Paint()
-      ..color = const Color(0xFF00796B).withOpacity( 0.25)
+      ..color = AppTokens.onSurfaceMuted.withOpacity(0.12)
       ..style = PaintingStyle.fill;
 
     for (int i = 0; i < 8; i++) {
@@ -653,7 +649,7 @@ class _EnhancedBackgroundPainter extends CustomPainter {
     }
 
     final wavePaint = Paint()
-      ..color = const Color(0xFF4DB6AC).withOpacity( 0.18)
+      ..color = AppTokens.brand.withOpacity(0.06)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 

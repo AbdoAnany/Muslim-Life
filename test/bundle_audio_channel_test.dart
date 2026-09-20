@@ -24,6 +24,21 @@ void main() {
     expect(path, contains('a1_1.mp3'));
   });
 
+  test('bundleResourcePath retries then succeeds', () async {
+    var calls = 0;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (call) async {
+      if (call.method != 'bundleResourcePath') return null;
+      calls++;
+      if (calls < 2) return null;
+      return '/tmp/a1_1.mp3';
+    });
+
+    final path = await BundleAudioChannel.bundleResourcePath('a1_1');
+    expect(path, '/tmp/a1_1.mp3');
+    expect(calls, greaterThanOrEqualTo(2));
+  });
+
   test('bundleResourcePath returns null when native returns null', () async {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (call) async => null);

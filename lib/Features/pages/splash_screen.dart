@@ -77,8 +77,8 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Shimmer.fromColors(
               enabled: true,
-              baseColor: appProvider.isDark ? Colors.white : Colors.black,
-              highlightColor: appProvider.isDark ? Colors.grey : Colors.white,
+              baseColor: AppTokens.courtyardMuted,
+              highlightColor: AppTokens.brand.withOpacity(0.35),
               child: BlocBuilder<ChapterCubit, ChapterState>(
                 builder: (context, state) {
                   if (state is ChapterFetchLoading) {

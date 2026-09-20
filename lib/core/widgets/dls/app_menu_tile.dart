@@ -35,7 +35,7 @@ class AppMenuTile extends StatelessWidget {
     );
 
     return Material(
-      color: Colors.white,
+      color: AppTokens.mushaf,
       elevation: AppTokens.elevationCard,
       borderRadius: BorderRadius.circular(AppTokens.radiusLg),
       child: InkWell(

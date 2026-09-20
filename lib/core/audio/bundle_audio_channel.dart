@@ -8,26 +8,47 @@ class BundleAudioChannel {
   static const channelName = 'com.anany.azkar/audio';
   static const _channel = MethodChannel(channelName);
 
+  static const _pathRetryDelaysMs = [0, 50, 120];
+
   /// Activates platform playback session (iOS AVAudioSession).
   static Future<void> preparePlayback() async {
-    try {
-      await _channel.invokeMethod<void>('prepareAudioSession');
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        debugPrint('BundleAudioChannel.preparePlayback PlatformException: $e');
+    for (final delayMs in _pathRetryDelaysMs) {
+      if (delayMs > 0) {
+        await Future<void>.delayed(Duration(milliseconds: delayMs));
       }
-    } on MissingPluginException {
-      if (kDebugMode) {
-        debugPrint(
-          'BundleAudioChannel.preparePlayback: MissingPluginException — '
-          'native channel $channelName not registered (iOS AppDelegate?)',
-        );
+      try {
+        await _channel.invokeMethod<void>('prepareAudioSession');
+        return;
+      } on PlatformException catch (e) {
+        if (kDebugMode) {
+          debugPrint('BundleAudioChannel.preparePlayback PlatformException: $e');
+        }
+        return;
+      } on MissingPluginException {
+        if (kDebugMode && delayMs == _pathRetryDelaysMs.last) {
+          debugPrint(
+            'BundleAudioChannel.preparePlayback: MissingPluginException — '
+            'native channel $channelName not registered (iOS AudioBundlePlugin?)',
+          );
+        }
       }
     }
   }
 
   /// Returns absolute file path for [baseName] without extension, or null if missing.
   static Future<String?> bundleResourcePath(String baseName) async {
+    for (var i = 0; i < _pathRetryDelaysMs.length; i++) {
+      final delayMs = _pathRetryDelaysMs[i];
+      if (delayMs > 0) {
+        await Future<void>.delayed(Duration(milliseconds: delayMs));
+      }
+      final path = await _invokeBundlePath(baseName);
+      if (path != null) return path;
+    }
+    return null;
+  }
+
+  static Future<String?> _invokeBundlePath(String baseName) async {
     try {
       final path = await _channel.invokeMethod<String>(
         'bundleResourcePath',
@@ -49,7 +70,7 @@ class BundleAudioChannel {
       if (kDebugMode) {
         debugPrint(
           'BundleAudioChannel.bundleResourcePath: MissingPluginException — '
-          'dhikr will fail until $channelName is registered on iOS',
+          'retrying / check AudioBundlePlugin on iOS',
         );
       }
       return null;

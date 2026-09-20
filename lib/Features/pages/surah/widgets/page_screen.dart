@@ -43,7 +43,7 @@ class _PageScreenState extends State<PageScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppTokens.surface,
+      backgroundColor: AppTokens.mushaf,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

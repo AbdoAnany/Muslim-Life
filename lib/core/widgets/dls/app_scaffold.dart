@@ -25,7 +25,7 @@ class AppScaffold extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: backgroundColor ?? AppTokens.surface,
+        backgroundColor: backgroundColor ?? AppTokens.courtyard,
         appBar: AppBar(
           title: Text(title),
           actions: actions,
@@ -49,7 +49,7 @@ class AppHomeShell extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppTokens.surface,
+        backgroundColor: AppTokens.courtyard,
         body: body,
       ),
     );

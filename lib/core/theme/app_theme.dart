@@ -16,7 +16,7 @@ ThemeData buildAppTheme() {
   return ThemeData(
     useMaterial3: true,
     fontFamily: fontFamily,
-    scaffoldBackgroundColor: AppTokens.surface,
+    scaffoldBackgroundColor: AppTokens.courtyard,
     colorScheme: colorScheme,
     primaryColor: AppTokens.brand,
     disabledColor: AppTokens.onSurfaceMuted,
@@ -38,7 +38,7 @@ ThemeData buildAppTheme() {
       ),
     ),
     cardTheme: CardThemeData(
-      color: Colors.white,
+      color: AppTokens.mushaf,
       elevation: AppTokens.elevationCard,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -84,7 +84,7 @@ ThemeData buildAppTheme() {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: AppTokens.mushaf,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppTokens.radiusMd),
         borderSide: BorderSide(color: Colors.grey.shade300),

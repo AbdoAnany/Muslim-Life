@@ -82,7 +82,14 @@ class AppAudio {
 
     if (Platform.isAndroid) {
       final exists = await BundleAudioChannel.androidRawExists(baseName);
-      if (!exists) return null;
+      if (!exists) {
+        if (kDebugMode) {
+          debugPrint(
+            'AppAudio: android raw missing for $baseName — skipping URI load',
+          );
+        }
+        return null;
+      }
       return AudioSource.uri(
         Uri.parse(DhikrSoundNames.androidResourceUri(baseName)),
         tag: tag,

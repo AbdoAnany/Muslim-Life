@@ -42,7 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppTokens.surface,
+        backgroundColor: AppTokens.courtyard,
         body: SafeArea(
           child: Column(
             children: [

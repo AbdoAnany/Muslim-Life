@@ -3,7 +3,11 @@ import Flutter
 
 /// Registers `com.anany.azkar/audio` on the Flutter engine (not tied to UI window timing).
 public final class AudioBundlePlugin: NSObject, FlutterPlugin {
+  private static var didRegister = false
+
   public static func register(with registrar: FlutterPluginRegistrar) {
+    guard !didRegister else { return }
+    didRegister = true
     let channel = FlutterMethodChannel(
       name: "com.anany.azkar/audio",
       binaryMessenger: registrar.messenger()

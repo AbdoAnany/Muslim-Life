@@ -8,11 +8,24 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    if let registrar = registrar(forPlugin: "AudioBundlePlugin") {
-      AudioBundlePlugin.register(with: registrar)
-    } else {
-      NSLog("AppDelegate: failed to obtain registrar for AudioBundlePlugin")
+    let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    registerAudioPluginIfNeeded()
+    DispatchQueue.main.async { [weak self] in
+      self?.registerAudioPluginIfNeeded()
     }
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    return result
+  }
+
+  override func applicationDidBecomeActive(_ application: UIApplication) {
+    super.applicationDidBecomeActive(application)
+    registerAudioPluginIfNeeded()
+  }
+
+  private func registerAudioPluginIfNeeded() {
+    guard let registrar = registrar(forPlugin: "AudioBundlePlugin") else {
+      NSLog("AppDelegate: Flutter registrar not ready for AudioBundlePlugin")
+      return
+    }
+    AudioBundlePlugin.register(with: registrar)
   }
 }

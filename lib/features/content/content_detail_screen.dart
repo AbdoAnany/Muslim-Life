@@ -51,6 +51,7 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
             onPressed: () => _store.toggle(item.appModel, item.itemId),
           ),
       ],
+      backgroundColor: AppTokens.mushaf,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTokens.spaceMd),
         child: Column(
@@ -58,7 +59,11 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
           children: [
             Text(
               item.html,
-              style: const TextStyle(fontSize: 20, height: 1.8),
+              style: const TextStyle(
+                fontSize: 20,
+                height: 1.8,
+                color: AppTokens.onSurface,
+              ),
               textAlign: TextAlign.right,
             ),
             if (item.description.isNotEmpty) ...[
