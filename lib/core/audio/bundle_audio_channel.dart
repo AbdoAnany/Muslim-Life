@@ -6,6 +6,17 @@ class BundleAudioChannel {
 
   static const _channel = MethodChannel('com.anany.azkar/audio');
 
+  /// Activates platform playback session (iOS AVAudioSession).
+  static Future<void> preparePlayback() async {
+    try {
+      await _channel.invokeMethod<void>('prepareAudioSession');
+    } on PlatformException {
+      // Android has no handler; ignore.
+    } on MissingPluginException {
+      // Tests / web.
+    }
+  }
+
   /// Returns absolute file path for [baseName] without extension, or null if missing.
   static Future<String?> bundleResourcePath(String baseName) async {
     try {

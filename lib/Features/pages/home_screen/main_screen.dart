@@ -10,6 +10,8 @@ import 'package:azkar/Features/pages/home_screen/widgets/home_location_label.dar
 import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/updates/app_update_checker.dart';
 import 'package:azkar/core/utils/size_config.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_menu_tile.dart';
 import 'package:azkar/features/prayer/prayer_times_screen.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +91,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFBFC),
+      backgroundColor: AppTokens.surface,
       body: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           final MainBloc prayer = MainBloc.get(context);
@@ -188,67 +190,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   Widget _buildNavigationItem(BuildContext context, ApiModel item) {
     final imagePath = 'assets/images/${item.photo}';
-    return InkWell(
+    return AppMenuTile(
+      label: item.title,
+      imagePath: imagePath,
       onTap: () => AppRoutes.openAction(context, item),
-      borderRadius: BorderRadius.circular(16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withOpacity( 0.2),
-                width: 1.0,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: BackdropFilter(
-                filter: ui.ImageFilter.blur(sigmaX: .4, sigmaY: 2),
-                child: Container(
-                  color: Colors.black12.withOpacity( 0.01),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Hero(
-                        tag: imagePath,
-                        child: Image.asset(
-                          imagePath,
-                          height: 60,
-                          width: 60,
-                          errorBuilder: (_, __, ___) => Icon(
-                            Icons.menu_book,
-                            size: 60,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          item.title,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[700],
-                            height: 1.2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -264,12 +209,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF4DB6AC),
-              Color(0xFF26A69A),
-              Color(0xFF00796B),
+              AppTokens.brand,
+              AppTokens.brandDark,
+              Color(0xFF066666),
             ],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppTokens.radiusLg),
         ),
         child: Text(
           prayer.textState,
@@ -298,15 +243,15 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF4DB6AC),
-              Color(0xFF26A69A),
-              Color(0xFF00796B),
+              AppTokens.brand,
+              AppTokens.brandDark,
+              Color(0xFF066666),
             ],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppTokens.radiusLg),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF4DB6AC).withOpacity( 0.3),
+              color: AppTokens.brand.withOpacity(0.3),
               blurRadius: 15,
               offset: ui.Offset(0, 8),
               spreadRadius: 0,

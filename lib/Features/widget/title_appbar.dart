@@ -1,19 +1,18 @@
-import 'package:azkar/core/utils/size_config.dart';
-import 'package:azkar/core/widgets/title.dart';
 import 'package:flutter/material.dart';
 
+/// Legacy screens — delegates to global [ThemeData.appBarTheme] (teal DLS).
 class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
-  TitleAppBar({super.key, this.title = ""});
-  final title;
+  const TitleAppBar({super.key, this.title = ''});
+
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: CustomTitle(
-          title: title,
-        ));
+      title: Text(title),
+    );
   }
 
-  Size get preferredSize => Size(SizeConfig.screenWidth, 60);
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

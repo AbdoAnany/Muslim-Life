@@ -86,7 +86,7 @@ class AppRoutes {
       case AppModel.sibha:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => Misbaha()),
+          MaterialPageRoute(builder: (_) => const Misbaha()),
         );
         break;
       case AppModel.convertDate:

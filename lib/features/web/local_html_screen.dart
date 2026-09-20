@@ -1,4 +1,4 @@
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -25,12 +25,9 @@ class _LocalHtmlScreenState extends State<LocalHtmlScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: Text(widget.title), backgroundColor: kMainColor),
-        body: WebViewWidget(controller: _controller),
-      ),
+    return AppScaffold(
+      title: widget.title,
+      body: WebViewWidget(controller: _controller),
     );
   }
 }

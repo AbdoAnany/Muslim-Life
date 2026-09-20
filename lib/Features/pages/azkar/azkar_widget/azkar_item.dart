@@ -2,7 +2,7 @@ import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,7 @@ class AzkarItemNew extends StatelessWidget{
             borderRadius:
             BorderRadius.circular(15.0),
             border: Border.all(
-              color: kMainColor,
+              color: AppTokens.brand,
               width: 1,
             ),
           ),

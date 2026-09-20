@@ -6,10 +6,14 @@ class EmptyState extends StatelessWidget {
     super.key,
     required this.message,
     this.icon = Icons.inbox_outlined,
+    this.actionLabel,
+    this.onAction,
   });
 
   final String message;
   final IconData icon;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,10 @@ class EmptyState extends StatelessWidget {
                     color: AppTokens.onSurfaceMuted,
                   ),
             ),
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: AppTokens.spaceMd),
+              ElevatedButton(onPressed: onAction, child: Text(actionLabel!)),
+            ],
           ],
         ),
       ),

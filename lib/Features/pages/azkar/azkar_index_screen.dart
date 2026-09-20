@@ -1,7 +1,8 @@
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_state.dart';
-import 'package:azkar/Features/widget/title_appbar.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/assets.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,14 +20,10 @@ class AzkarIndexScreen extends StatelessWidget {
       builder: (context, state) {
         AzkarCubit azkarCubit = AzkarCubit.get(context);
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: GestureDetector(
+        return GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
-              child: Scaffold(
-                appBar: TitleAppBar(title: 'أذكار حصن المسلم'),
-
-                backgroundColor:  Colors.white,
+              child: AppScaffold(
+                title: 'أذكار حصن المسلم',
                 body: Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.topCenter,
@@ -78,8 +75,14 @@ class AzkarIndexScreen extends StatelessWidget {
                           hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02,),
                           prefixIcon: Icon(Icons.search,),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),),
-                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
+                            borderRadius:
+                                BorderRadius.circular(AppTokens.radiusMd),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(AppTokens.radiusMd),
+                            borderSide: const BorderSide(color: AppTokens.brand),
+                          ),
                         ),
                       ),
                     ),

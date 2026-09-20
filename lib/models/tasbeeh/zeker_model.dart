@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:azkar/core/audio/dhikr_sound_names.dart';
 import 'package:azkar/helper/db_sqlite_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -39,20 +40,15 @@ class ZekerModel {
   }
 
   String soundFileNamePath() {
-    var file = zeker_id;
-    if (choose_repeat.isNotEmpty && zeker_repeat != 1) {
-      var chooseRepeat = int.parse(choose_repeat);
-      var fileRepeat = zeker_repeat;
-      if (fileRepeat < chooseRepeat) {
-        chooseRepeat = fileRepeat;
-      }
-      file = '${file}_$chooseRepeat';
-    }
-    file = 'a$file';
+    final base = DhikrSoundNames.rawBaseName(
+      zekerId: zeker_id,
+      chooseRepeat: choose_repeat,
+      zekerRepeat: zeker_repeat,
+    );
     if (Platform.isAndroid) {
-      return 'android.resource://com.anany.azkar/raw/$file';
+      return DhikrSoundNames.androidResourceUri(base);
     }
-    return '$file.mp3';
+    return DhikrSoundNames.iosFileName(base);
   }
 
   static Future<List<ZekerModel>> getList(int typeId) async {

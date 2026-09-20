@@ -82,6 +82,22 @@ ThemeData buildAppTheme() {
         vertical: AppTokens.spaceXs,
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppTokens.radiusMd),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppTokens.radiusMd),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppTokens.radiusMd),
+        borderSide: const BorderSide(color: AppTokens.brand, width: 1.5),
+      ),
+    ),
     dividerTheme: DividerThemeData(
       color: Colors.grey.shade200,
       space: 1,

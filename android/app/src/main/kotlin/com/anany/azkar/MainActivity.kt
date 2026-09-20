@@ -21,6 +21,7 @@ class MainActivity : FlutterActivity() {
                     val id = resources.getIdentifier(name, "raw", packageName)
                     result.success(id != 0)
                 }
+                "prepareAudioSession" -> result.success(null)
                 else -> result.notImplemented()
             }
         }

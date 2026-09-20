@@ -1,5 +1,6 @@
 import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/storage/cash_local.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/widgets/home_widget_bridge.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -40,6 +41,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: AppTokens.surface,
         body: SafeArea(
           child: Column(
             children: [

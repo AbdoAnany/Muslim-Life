@@ -3,8 +3,8 @@ import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/pages/surah/widgets/surah_tile.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/assets.dart';
-import 'package:azkar/core/widgets/title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +30,10 @@ class SurahIndexScreen extends StatelessWidget {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                  centerTitle: true,backgroundColor: Colors.transparent,
-                  title:   const CustomTitle(
-                    title:  'سور القرآن الكريم',
-                  )),
+                title: const Text('سور القرآن الكريم'),
+              ),
               backgroundColor:
-                  appProvider.isDark ? Colors.grey[850] : Colors.white,
+                  appProvider.isDark ? Colors.grey[850] : AppTokens.surface,
               body: Stack(
                 children: <Widget>[
                   Opacity(
@@ -139,7 +137,7 @@ class SurahIndexScreen extends StatelessWidget {
                         ),
                         child: ListView.separated(
                           separatorBuilder: (context, index) =>
-                              Divider(color: kMainColor, height: 1),
+                              Divider(color: AppTokens.brand, height: 1),
                           itemCount: chapterCubit.chaptercontroller.text.isEmpty
                               ? chapterCubit.chapters.length
                               : chapterCubit.searchedChapters.length,
