@@ -18,12 +18,12 @@ class MainBloc extends Cubit<MainState> {
   bool sidebarOpen = false;
 
   Map images = {
-    "Fajr": "assets/images/FR.jpg",
-    "Sunrise": "assets/images/SR.jpg",
-    "Dhuhr": "assets/images/ZH.jpg",
-    "Asr": "assets/images/AS.jpg",
-    "Maghrib": "assets/images/MA.jpg",
-    "Isha": "assets/images/IS.jpg"
+    "Fajr": "assets/images/mosque.png",
+    "Sunrise": "assets/images/mecca.png",
+    "Dhuhr": "assets/images/pray.png",
+    "Asr": "assets/images/mosque.png",
+    "Maghrib": "assets/images/mecca.png",
+    "Isha": "assets/images/mosque.png",
   };
   // Map prayerName = {
   //   "0": "الفجر",
@@ -111,13 +111,24 @@ class MainBloc extends Cubit<MainState> {
     return formattedTime;
   }
 
-  Future<void> getPrayTime() async {
+  Future<void> getPrayTime({bool forceRefresh = false}) async {
     updateTextState();
     DateTime date = DateTime.now();
-    PrayerTimesModel? pray = await PrayerTimesStorage.getPrayerTimes();
+    PrayerTimesModel? pray =
+        forceRefresh ? null : await PrayerTimesStorage.getPrayerTimes();
     LocationPermission locationPermission = await Geolocator.checkPermission();
 
-    Position log =   Position(longitude: 31.4722447, latitude: 30.2398005, timestamp: date, accuracy: 0.0, altitude: 0.0, altitudeAccuracy: 0.0, heading: 0.0, headingAccuracy: 0.0, speed: 0.0, speedAccuracy: 0.0);
+    Position log = Position(
+        longitude: 31.4722447,
+        latitude: 30.2398005,
+        timestamp: date,
+        accuracy: 0.0,
+        altitude: 0.0,
+        altitudeAccuracy: 0.0,
+        heading: 0.0,
+        headingAccuracy: 0.0,
+        speed: 0.0,
+        speedAccuracy: 0.0);
 
     var parser1;
     if (pray == null) {
@@ -147,6 +158,6 @@ class MainBloc extends Cubit<MainState> {
     currentPray =timingsList.lastWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isBefore(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
     nextPray =timingsList.firstWhere((element)  =>element!.englishName!.length<7 && (  timeToDateTime(time: element!.time)).isAfter(DateTime.now()),orElse:()=> PrayerTimeModel(time: '',arabicName: '',englishName: '____________________________'));
 
-    updateTextState(message: "تم تحميل البيانات");
+    emit(MainSuccess());
   }
 }

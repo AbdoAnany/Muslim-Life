@@ -1,11 +1,12 @@
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
 import 'package:azkar/Features/pages/home_screen/widgets/TimeView.dart';
-import 'package:azkar/Features/scd.dart';
+import 'package:azkar/Bloc/app_cubit.dart';
+import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/shared/styles.dart';
 import 'package:azkar/core/utils/assets.dart';
-import 'package:azkar/core/utils/drawer.dart';
+import 'package:azkar/features/prayer/prayer_times_screen.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -58,17 +59,13 @@ class MainScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: (){
-                            int x=0;
-                            prayer.timingsList.forEach((element) {
-                              zonedScheduleNotification(
-                                id: DateTime.now().day+DateTime.now().month*10+x++,
-                                  body: element!.englishName!.length > 7
-                                      ? "حان الان  ${element.arabicName!}"
-                                      : "حان الان موعد أذان ${element.arabicName!}",
-                                dateTime: MainBloc.timeToDateTime(time: element!.time)
-                              );
-                            });
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const PrayerTimesScreen(),
+                              ),
+                            );
                           },
                           child: Container(
 
@@ -183,81 +180,70 @@ class MainScreen extends StatelessWidget {
                                       ),
                                     )),
                         ),
-                        Center(
-                          child: GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: DrawerUtils.items.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 5,
-                                    mainAxisSpacing: 5),
-                            itemBuilder: (context, index) => InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          DrawerUtils.items[index]['route']),
+                        BlocBuilder<AppCubit, AppStates>(
+                          builder: (context, _) {
+                            final menu = AppCubit.get(context).menuList;
+                            return GridView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: menu.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                              ),
+                              itemBuilder: (context, index) {
+                                final item = menu[index];
+                                final imagePath =
+                                    'assets/images/${item.photo}';
+                                return InkWell(
+                                  onTap: () => AppRoutes.openAction(context, item),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: SizeConfig.screenWidth * .04,
+                                      vertical: SizeConfig.screenHeight * .02,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(.2),
+                                      border: Border.all(color: kMainColor, width: 1),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          item.title,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: kMainColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: SizeConfig.screenWidth * .042,
+                                          ),
+                                        ),
+                                        SizedBox(height: SizeConfig.screenHeight * 0.01),
+                                        Image.asset(
+                                          imagePath,
+                                          height: SizeConfig.screenHeight * .08,
+                                          errorBuilder: (_, __, ___) => Icon(
+                                            Icons.menu_book,
+                                            color: kMainColor,
+                                            size: SizeConfig.screenHeight * .08,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 );
                               },
-                              child: Container(
-                                margin:  EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.screenWidth * .04,
-                                  vertical: SizeConfig.screenHeight * .02,
-                                ),
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(.2),
-                                    border: Border.all(color: kMainColor, width: 1),
-                                    borderRadius: BorderRadius.circular(16)),
-                                padding: const EdgeInsets.all(8),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      DrawerUtils.items[index]['title'],
-                                      style: TextStyle(
-                                          color: kMainColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: SizeConfig.screenWidth * .05),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.screenHeight * 0.01,
-                                    ),
-                                    Hero(
-                                        tag: DrawerUtils.items[index]['imagePath'],
-                                        child: Image.asset(
-                                          DrawerUtils.items[index]['imagePath'],
-                                          height: SizeConfig.screenHeight * .1,
-                                        ))
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ],
                     ),
                   ),
-                  if (kDebugMode)
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (c) => NotificationPanel()));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(100.0),
-                          child: Text('NTF'),
-                        ),
-                      ),
-                    ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(

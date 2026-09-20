@@ -5,8 +5,9 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:azkar/Features/bloc/bookmarkCubit/BookMarkAppCubit.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/Features/model/azkarModel.dart';
+import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +37,8 @@ class AzkarCubit extends Cubit<AzkarState> {
 
   int currentIndex = 0, currentPage = 0;
   var currentPosition;
-  final CarouselController carouselController = CarouselController();
+  final carousel_slider.CarouselController carouselController =
+      carousel_slider.CarouselController();
 
 
 

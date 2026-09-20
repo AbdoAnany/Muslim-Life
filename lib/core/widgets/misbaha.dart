@@ -66,7 +66,7 @@ class Misbaha extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'لتغير العدد اضغط فوق  مطولا ',
+                          'الهدف: ${VM.targetCount} — لتغير المجموعة اضغط مطولاً',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: SizeConfig.screenHeight * .02,

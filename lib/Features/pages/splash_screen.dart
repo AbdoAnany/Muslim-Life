@@ -1,5 +1,3 @@
-
-
 import 'package:azkar/Features/bloc/Azkar_cubit/azkar_cubit.dart';
 import 'package:azkar/Features/bloc/bookmarks/cubit.dart';
 import 'package:azkar/Features/bloc/bookmarks/state.dart';
@@ -7,18 +5,15 @@ import 'package:azkar/Features/bloc/chapter/cubit.dart';
 import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_bloc.dart';
 import 'package:azkar/Features/bloc/main_bloc/main_state.dart';
-import 'package:azkar/Features/scd.dart';
+import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/providers/app_provider.dart';
+import 'package:azkar/core/storage/cash_local.dart';
 import 'package:azkar/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'home_screen/main_screen.dart';
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,42 +23,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  void _next() async {
-    // bool isNew = appProvider.init();
-    final bookmarkCubit = BookmarkCubit.get(context);
-    final chapterCubit = ChapterCubit.get(context);
+  Future<void> _bootstrap() async {
     final azkarCubit = AzkarCubit.get(context);
-    // final pray = MainBloc.get(context);
+    final chapterCubit = ChapterCubit.get(context);
+    final bookmarkCubit = BookmarkCubit.get(context);
+    final mainBloc = MainBloc.get(context);
+
     azkarCubit.getAzkarModel();
-  // await pray. getPrayTime();
     await chapterCubit.fetch();
     await bookmarkCubit.fetch();
+    await mainBloc.getPrayTime();
 
-
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context)=>const MainScreen()),
-        );
-      }
-    });
+    if (!mounted) return;
+    final onboardingDone = CashLocal.getBool('onboarding_complete');
+    if (!onboardingDone) {
+      AppRoutes.openOnboarding(context);
+      return;
+    }
+    AppRoutes.openHome(context);
   }
-
 
   @override
   void initState() {
-    _next();
     super.initState();
-    initStateNFT();
-
-  }
-
-
-  @override
-  void dispose() {
-    disposeNTF();
-    super.dispose();
+    _bootstrap();
   }
 
   @override
@@ -80,15 +63,13 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             WidgetAnimator(
               child: Hero(
-
-                tag:   StaticAssets.arabic,
+                tag: StaticAssets.arabic,
                 child: Image.asset(
                   StaticAssets.arabic,
-                  height:MediaQuery.of(context).size.height*.5,
+                  height: MediaQuery.of(context).size.height * .5,
                 ),
               ),
             ),
-
             Shimmer.fromColors(
               enabled: true,
               baseColor: appProvider.isDark ? Colors.white : Colors.black,
@@ -99,9 +80,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     return const Text('تحميل سور القران ');
                   } else if (bookmarkCubit.state is BookmarkFetchLoading) {
                     return const Text('اعداد علامة ');
-                  }else if (pray.state is MainSuccess) {
+                  } else if (pray.state is MainSuccess) {
                     return const Text('اعداد مواقيت الصلاة');
-                  }else
+                  }
                   return const Text('تحميل البيانات ');
                 },
               ),
