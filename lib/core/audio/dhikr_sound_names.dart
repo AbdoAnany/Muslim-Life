@@ -68,6 +68,16 @@ abstract final class DhikrSoundNames {
     return names.toList();
   }
 
+
+  /// Maps legacy unpadded base names (`a1`) to on-disk padded (`a001`) when obvious.
+  static String? normalizeLegacyBaseName(String name) {
+    final m = RegExp(r'^a(\d+)$').firstMatch(name);
+    if (m == null) return null;
+    final n = int.parse(m.group(1)!);
+    final padded = 'a${n.toString().padLeft(3, '0')}';
+    return padded == name ? null : padded;
+  }
+
   static String androidResourceUri(String baseName) =>
       'android.resource://$androidPackage/raw/$baseName';
 

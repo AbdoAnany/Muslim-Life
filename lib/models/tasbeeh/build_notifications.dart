@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:azkar/core/notifications/app_notification_service.dart';
 import 'package:azkar/models/tasbeeh/build_azkar.dart';
 import 'package:azkar/models/tasbeeh/sleep_hour_class.dart';
+import 'package:azkar/core/audio/dhikr_sound_names.dart';
 import 'package:azkar/models/tasbeeh/zeker_model.dart';
 import 'package:azkar/models/tasbeeh/zeker_time.dart';
 import 'package:flutter/material.dart';
@@ -60,15 +61,11 @@ class BuildNotifications {
     final temp = zekerList[fileCursor];
     fileCursor = (fileCursor + 1) % count;
     final zekerId = temp.zeker_id;
-    if (temp.choose_repeat.isNotEmpty && temp.zeker_repeat != 1) {
-      var chooseRepeat = int.parse(temp.choose_repeat);
-      if (temp.zeker_repeat < chooseRepeat) {
-        chooseRepeat = temp.zeker_repeat;
-      }
-      temp.fullFileName = 'a${zekerId}_$chooseRepeat';
-    } else {
-      temp.fullFileName = 'a$zekerId';
-    }
+    temp.fullFileName = DhikrSoundNames.rawBaseName(
+      zekerId: zekerId,
+      chooseRepeat: temp.choose_repeat,
+      zekerRepeat: temp.zeker_repeat,
+    );
     return temp;
   }
 

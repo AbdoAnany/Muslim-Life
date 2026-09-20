@@ -43,6 +43,7 @@ dependencies:
   share_plus: ^12.0.2
   in_app_review: ^2.0.12
   new_version_plus: ^0.0.12
+  audioplayers: ^6.8.1
 
 flutter_icons:
   android: "launcher_icon"
