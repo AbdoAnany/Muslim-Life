@@ -2,9 +2,9 @@ import 'package:azkar/Features/bloc/chapter/cubit.dart';
 import 'package:azkar/Features/bloc/chapter/state.dart';
 import 'package:azkar/Features/pages/surah/widgets/surah_tile.dart';
 import 'package:azkar/core/providers/app_provider.dart';
-import 'package:azkar/core/shared/colors.dart';
 import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/assets.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -24,16 +24,12 @@ class SurahIndexScreen extends StatelessWidget {
       builder: (context, state) {
         ChapterCubit chapterCubit = ChapterCubit.get(context);
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: GestureDetector(
+        return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
-            child: Scaffold(
-              appBar: AppBar(
-                title: const Text('سور القرآن الكريم'),
-              ),
+            child: AppScaffold(
+              title: 'سور القرآن الكريم',
               backgroundColor:
-                  appProvider.isDark ? Colors.grey[850] : AppTokens.surface,
+                  appProvider.isDark ? Colors.grey[850]! : AppTokens.surface,
               body: Stack(
                 children: <Widget>[
                   Opacity(
@@ -152,7 +148,6 @@ class SurahIndexScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
         );
       },
     );

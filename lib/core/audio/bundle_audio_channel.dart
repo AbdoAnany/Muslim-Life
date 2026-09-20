@@ -1,19 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Resolves native bundle paths for dhikr mp3s (iOS Runner/raw resources).
 class BundleAudioChannel {
   BundleAudioChannel._();
 
-  static const _channel = MethodChannel('com.anany.azkar/audio');
+  static const channelName = 'com.anany.azkar/audio';
+  static const _channel = MethodChannel(channelName);
 
   /// Activates platform playback session (iOS AVAudioSession).
   static Future<void> preparePlayback() async {
     try {
       await _channel.invokeMethod<void>('prepareAudioSession');
-    } on PlatformException {
-      // Android has no handler; ignore.
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        debugPrint('BundleAudioChannel.preparePlayback PlatformException: $e');
+      }
     } on MissingPluginException {
-      // Tests / web.
+      if (kDebugMode) {
+        debugPrint(
+          'BundleAudioChannel.preparePlayback: MissingPluginException — '
+          'native channel $channelName not registered (iOS AppDelegate?)',
+        );
+      }
     }
   }
 
@@ -24,11 +33,25 @@ class BundleAudioChannel {
         'bundleResourcePath',
         {'name': baseName},
       );
+      if (kDebugMode) {
+        debugPrint(
+          'BundleAudioChannel.bundleResourcePath($baseName) => ${path ?? 'null'}',
+        );
+      }
       if (path == null || path.isEmpty) return null;
       return path;
-    } on PlatformException {
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        debugPrint('BundleAudioChannel.bundleResourcePath PlatformException: $e');
+      }
       return null;
     } on MissingPluginException {
+      if (kDebugMode) {
+        debugPrint(
+          'BundleAudioChannel.bundleResourcePath: MissingPluginException — '
+          'dhikr will fail until $channelName is registered on iOS',
+        );
+      }
       return null;
     }
   }
@@ -40,10 +63,19 @@ class BundleAudioChannel {
         'androidRawExists',
         {'name': baseName},
       );
+      if (kDebugMode) {
+        debugPrint('BundleAudioChannel.androidRawExists($baseName) => $exists');
+      }
       return exists ?? false;
-    } on PlatformException {
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        debugPrint('BundleAudioChannel.androidRawExists PlatformException: $e');
+      }
       return false;
     } on MissingPluginException {
+      if (kDebugMode) {
+        debugPrint('BundleAudioChannel.androidRawExists: MissingPluginException');
+      }
       return false;
     }
   }

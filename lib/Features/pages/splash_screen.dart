@@ -9,6 +9,7 @@ import 'package:azkar/app_routes.dart';
 import 'package:azkar/core/animations/bottom_animation.dart';
 import 'package:azkar/core/providers/app_provider.dart';
 import 'package:azkar/core/storage/cash_local.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final pray = MainBloc.get(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTokens.surface,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

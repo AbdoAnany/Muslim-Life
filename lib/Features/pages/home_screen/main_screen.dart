@@ -12,6 +12,7 @@ import 'package:azkar/core/updates/app_update_checker.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/widgets/dls/app_menu_tile.dart';
+import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:azkar/features/prayer/prayer_times_screen.dart';
 import 'package:azkar/models/tasbeeh/api_model.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +91,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      backgroundColor: AppTokens.surface,
+    return AppHomeShell(
       body: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           final MainBloc prayer = MainBloc.get(context);

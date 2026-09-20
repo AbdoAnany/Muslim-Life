@@ -53,8 +53,8 @@ void main() {
         'zeker_name': 'سبحان الله',
         'zeker_type_id': 2,
       });
-      expect(AppAudio.rawBaseNameFor(z), 'a1');
-      expect(z.soundFileNamePath(), endsWith('a1'));
+      expect(AppAudio.rawBaseNameFor(z), 'a1_1');
+      expect(z.soundFileNamePath(), contains('a1_1'));
     });
   });
 }

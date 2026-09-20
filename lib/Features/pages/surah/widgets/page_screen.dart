@@ -4,7 +4,7 @@ import 'package:azkar/Features/bloc/bookmarks/state.dart';
 import 'package:azkar/Features/model/ayah.dart';
 import 'package:azkar/Features/model/chapter.dart';
 import 'package:azkar/core/providers/app_provider.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
 import 'package:azkar/core/widgets/groupList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +43,7 @@ class _PageScreenState extends State<PageScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTokens.surface,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -72,7 +72,8 @@ class _PageScreenState extends State<PageScreen> {
               color: appProvider.isDark ? Colors.white : Colors.black54,
             ),
             backgroundColor:
-                appProvider.isDark ? Colors.grey[850] : Colors.white,
+                appProvider.isDark ? Colors.grey[850] : AppTokens.brand,
+            foregroundColor: Colors.white,
             pinned: true,
             floating: true,
             title: Slider(
@@ -123,7 +124,7 @@ class _PageScreenState extends State<PageScreen> {
                     children: [
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .4,
-                          child: Divider(color: kMainColor.withOpacity(.5))),
+                          child: Divider(color: AppTokens.brand.withOpacity(.5))),
                       Text(
                         ' $groupByValue ',
                         style: TextStyle(
@@ -134,7 +135,7 @@ class _PageScreenState extends State<PageScreen> {
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .4,
-                          child: Divider(color: kMainColor.withOpacity(.5))),
+                          child: Divider(color: AppTokens.brand.withOpacity(.5))),
                     ],
                   );
                 },

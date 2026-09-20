@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:azkar/core/config/app_contact.dart';
 import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_card.dart';
 import 'package:azkar/core/widgets/dls/app_scaffold.dart';
 import 'package:azkar/core/widgets/dls/section_header.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: AppTokens.spaceLg),
             if (hasContact) ...[
               SectionHeader('اتصل بنا'),
-              Card(
+              AppCard(
                 child: Column(
                   children: [
                     if (AppContact.supportEmail.isNotEmpty) ...[
@@ -108,7 +109,7 @@ class AboutScreen extends StatelessWidget {
               const SizedBox(height: AppTokens.spaceMd),
             ],
             SectionHeader('التطبيق'),
-            Card(
+            AppCard(
               child: Column(
                 children: [
                   _actionTile(

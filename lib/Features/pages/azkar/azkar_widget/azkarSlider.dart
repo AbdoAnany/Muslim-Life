@@ -3,7 +3,8 @@ import 'package:azkar/Features/bloc/Azkar_cubit/azkar_state.dart';
 import 'package:azkar/Features/model/Azkar/azkar.dart';
 import 'package:azkar/Features/widget/bct.dart';
 import 'package:azkar/core/providers/app_provider.dart';
-import 'package:azkar/core/shared/colors.dart';
+import 'package:azkar/core/theme/app_tokens.dart';
+import 'package:azkar/core/widgets/dls/app_card.dart';
 import 'package:azkar/core/shared/styles.dart';
 import 'package:azkar/core/utils/size_config.dart';
 import 'package:azkar/main.dart';
@@ -26,7 +27,7 @@ class AzkarSliderNew extends StatelessWidget {
             //print(azkarCubit.currentIndex);
             if (azkarCubit.azkarDataNewList.isNotEmpty) {
               return Container(
-                color: Colors.white,
+                color: AppTokens.surface,
                 width: SizeConfig.screenWidth,
                 height: SizeConfig.screenHeight,
                 child: Column(
@@ -39,15 +40,15 @@ class AzkarSliderNew extends StatelessWidget {
                         size: 5,
                         totalSteps: azkarCubit.azkarDataNewList.length,
                         currentStep: azkarCubit.currentIndex + 1,
-                        selectedColor: kMainColor,
+                        selectedColor: AppTokens.brand,
                         unselectedColor: Colors.grey.shade200,
                       ),
                     ),
                     Container(
-                      color: Colors.white,
+                      color: AppTokens.surface,
                       width: SizeConfig.screenWidth,
                       height: SizeConfig.screenWidth * .22,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(AppTokens.spaceSm),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +60,7 @@ class AzkarSliderNew extends StatelessWidget {
                               textDirection: TextDirection.rtl,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.blueGrey.shade700,
+                                color: AppTokens.onSurface,
                                 fontSize: SizeConfig.screenWidth * .055,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -376,30 +377,23 @@ class AzkarCartWidget extends StatelessWidget {
     //  padding: EdgeInsets.all(8),
       width:  SizeConfig.screenWidth,height: SizeConfig.screenHeight,
 
-      color: kWhite,
+      color: AppTokens.surface,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
           SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: kMainColor.withOpacity(.2),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: kMainColor.withOpacity(.01),
-
-                  ),
-                  padding:  EdgeInsets.all(20.w),
-                  margin:  EdgeInsets.all(20.w),
+                AppCard(
+                  margin: EdgeInsets.all(20.w),
+                  padding: EdgeInsets.all(20.w),
                   child: Text(
-                    '${text}',
+                    text,
                     textDirection: TextDirection.rtl,
                     style: TextStyle(
-                      color: Colors.blueGrey.shade800,
-                      fontSize: 22 .w,height: 1.8,
+                      color: AppTokens.onSurface,
+                      fontSize: 22.w,
+                      height: 1.8,
                       fontWeight: FontWeight.normal,
                     ),
                     textAlign: TextAlign.justify,
